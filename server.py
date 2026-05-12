@@ -4,9 +4,15 @@ import socketserver
 
 PORT = int(os.environ.get("PORT", 8080))
 
-Handler = http.server.SimpleHTTPRequestHandler
-Handler.extensions_map.update({".js": "application/javascript"})
+class Handler(http.server.SimpleHTTPRequestHandler):
+    def end_headers(self):
+        self.send_header("Cache-Control", "no-cache")
+        super().end_headers()
 
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print(f"Serving on port {PORT}")
-    httpd.serve_forever()
+    def log_message(self, format, *args):
+        pass  # suppress logs
+
+httpd = socketserver.TCPServer(("0.0.0.0", PORT), Handler)
+httpd.allow_reuse_address = True
+print(f"Serving on 0.0.0.0:{PORT}", flush=True)
+httpd.serve_forever()
