@@ -399,6 +399,104 @@ body {
   background: var(--border);
 }
 
+/* Neural canvas */
+#neural-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+}
+
+/* AI Core */
+.ai-core {
+  position: absolute;
+  right: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 320px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  will-change: transform;
+}
+
+.ai-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid transparent;
+}
+.ai-ring-1 {
+  width: 320px; height: 320px;
+  border-color: rgba(196,146,74,0.15);
+  animation: spin1 18s linear infinite;
+}
+.ai-ring-1::before {
+  content: '';
+  position: absolute;
+  top: -3px; left: 50%;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #C4924A;
+  box-shadow: 0 0 10px #C4924A;
+  transform: translateX(-50%);
+}
+.ai-ring-2 {
+  width: 240px; height: 240px;
+  border-color: rgba(75,172,186,0.2);
+  animation: spin2 12s linear infinite;
+}
+.ai-ring-2::before {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 50%;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #4BACBA;
+  box-shadow: 0 0 8px #4BACBA;
+  transform: translateX(-50%);
+}
+.ai-ring-3 {
+  width: 165px; height: 165px;
+  border-color: rgba(196,146,74,0.12);
+  animation: spin1 8s linear infinite reverse;
+}
+
+@keyframes spin1 {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes spin2 {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+.ai-pulse {
+  position: absolute;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,146,74,0.15) 0%, rgba(75,172,186,0.08) 50%, transparent 70%);
+  animation: aiPulse 3s ease-in-out infinite;
+}
+@keyframes aiPulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50%       { transform: scale(1.25); opacity: 1; }
+}
+
+.ai-icon {
+  position: relative;
+  width: 72px; height: 72px;
+  z-index: 2;
+  filter: drop-shadow(0 0 16px rgba(196,146,74,0.5));
+  animation: aiFloat 4s ease-in-out infinite;
+}
+@keyframes aiFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
 /* Floating tech badges */
 .tech-badges { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
 .tech-badge {
@@ -870,6 +968,7 @@ footer {
   .steps { flex-direction: column; gap: 16px; }
   .step-arrow { transform: rotate(90deg); padding: 8px 0; align-self: center; margin-top: 0; }
   .tech-badges { display: none; }
+  .ai-core { display: none; }
 }
 
 @media (max-width: 640px) {
