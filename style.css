@@ -305,8 +305,9 @@ body {
 }
 .spline-wrap iframe,
 .spline-wrap spline-viewer {
-  width: 100%;
-  height: 100%;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
   border: none;
 }
 /* Verberg Spline watermark rechtsonder */
