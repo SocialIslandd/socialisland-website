@@ -18,27 +18,31 @@ if (photoWrap) {
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: false, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setClearColor(0x020208, 1);
+  renderer.setClearColor(0x04040e, 1);
   renderer.shadowMap.enabled = true;
 
   const scene  = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
   camera.position.set(0, 0, 5);
 
-  // Lighting — dramatic teal + gold rim
-  scene.add(new THREE.AmbientLight(0x050510, 2));
+  // Lighting — strong so the metallic materials catch it
+  scene.add(new THREE.AmbientLight(0x223344, 3));
 
-  const tealLight = new THREE.PointLight(0x4BACBA, 6, 20);
-  tealLight.position.set(-4, 2, 3);
+  const tealLight = new THREE.PointLight(0x4BACBA, 18, 25);
+  tealLight.position.set(-4, 2, 4);
   scene.add(tealLight);
 
-  const goldLight = new THREE.PointLight(0xC4924A, 5, 20);
-  goldLight.position.set(4, -1, 3);
+  const goldLight = new THREE.PointLight(0xC4924A, 14, 25);
+  goldLight.position.set(4, -1, 4);
   scene.add(goldLight);
 
-  const frontLight = new THREE.DirectionalLight(0x8899bb, 0.6);
-  frontLight.position.set(0, 0, 5);
+  const frontLight = new THREE.DirectionalLight(0xaabbcc, 2.5);
+  frontLight.position.set(0, 1, 6);
   scene.add(frontLight);
+
+  const topLight = new THREE.PointLight(0xffffff, 6, 15);
+  topLight.position.set(0, 5, 3);
+  scene.add(topLight);
 
   // Stars
   const starPos = new Float32Array(1200 * 3);
@@ -80,14 +84,22 @@ if (photoWrap) {
       model.scale.setScalar(scale);
       model.position.sub(center.multiplyScalar(scale));
 
-      // Keep original materials — they look best
+      // Override materials — glowing metallic so it's always visible on dark bg
+      let meshIndex = 0;
       model.traverse(child => {
         if (child.isMesh) {
           child.castShadow    = true;
           child.receiveShadow = true;
-          if (child.material) {
-            child.material.envMapIntensity = 1.2;
-          }
+          // Alternate teal / gold per mesh for visual detail
+          const isTeal = meshIndex % 2 === 0;
+          child.material = new THREE.MeshStandardMaterial({
+            color:             isTeal ? 0x1a3a3a : 0x2a1a08,
+            metalness:         0.9,
+            roughness:         0.15,
+            emissive:          new THREE.Color(isTeal ? 0x4BACBA : 0xC4924A),
+            emissiveIntensity: 0.45,
+          });
+          meshIndex++;
         }
       });
 
@@ -133,8 +145,8 @@ if (photoWrap) {
     }
 
     // Pulse lights
-    tealLight.intensity = 5.5 + Math.sin(t * 1.3) * 1.0;
-    goldLight.intensity = 4.5 + Math.sin(t * 0.9 + 1.2) * 0.8;
+    tealLight.intensity = 17 + Math.sin(t * 1.3) * 3;
+    goldLight.intensity = 13 + Math.sin(t * 0.9 + 1.2) * 2;
 
     renderer.render(scene, camera);
   }
