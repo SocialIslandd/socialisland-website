@@ -187,63 +187,25 @@ body {
 }
 
 /* =============================================
-   INTRO — Fullscreen 3D Eye
+   SCROLL-DRIVEN 3D INTRO
    ============================================= */
-#intro {
+#scroll-intro {
   position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
+  height: 300vh;           /* scroll distance for the animation */
   background: #020208;
 }
 
 #intro-canvas {
-  position: absolute;
-  inset: 0;
+  position: sticky;
+  top: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  display: block;
 }
 
-/* Subtle vignette around edges */
-.intro-overlay {
+.intro-scroll-hint {
   position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center,
-    transparent 35%,
-    rgba(2,2,8,0.55) 70%,
-    rgba(2,2,8,0.92) 100%);
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* Loading pill */
-.intro-loading {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 5;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--text-muted);
-  font-size: 13px;
-  font-family: var(--font-head);
-  letter-spacing: 1px;
-  transition: opacity 0.8s ease;
-}
-.intro-loading.hidden { opacity: 0; pointer-events: none; }
-.hl-dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--teal);
-  animation: pulse 1.2s ease-in-out infinite;
-}
-
-/* Scroll hint */
-.intro-scroll {
-  position: absolute;
-  bottom: 36px;
+  bottom: calc(100vh - 92vh);   /* sits near bottom of first screen */
   left: 50%;
   transform: translateX(-50%);
   z-index: 5;
@@ -256,20 +218,17 @@ body {
   font-family: var(--font-head);
   letter-spacing: 2px;
   text-transform: uppercase;
-  opacity: 0;
-  transition: opacity 1s ease;
+  animation: fadeHint 3s ease-in-out infinite;
   pointer-events: none;
 }
-.intro-scroll.visible { opacity: 1; }
 .intro-arrow {
   width: 1px;
-  height: 32px;
+  height: 28px;
   background: linear-gradient(to bottom, var(--teal), transparent);
-  animation: scrollPulse 2s ease-in-out infinite;
 }
-@keyframes scrollPulse {
-  0%, 100% { opacity: 0.4; transform: scaleY(1); }
-  50%       { opacity: 1;   transform: scaleY(1.1); }
+@keyframes fadeHint {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 0.9; }
 }
 
 /* Neural network canvas */

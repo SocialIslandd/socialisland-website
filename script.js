@@ -8,160 +8,142 @@ if (photoWrap) {
 }
 
 // ══════════════════════════════════════════════
-//  INTRO — Fullscreen Robotic Eye (Three.js)
+//  SCROLL-DRIVEN 3D INTRO
 // ══════════════════════════════════════════════
-(function initIntro() {
-  const canvas  = document.getElementById('intro-canvas');
-  const loading = document.getElementById('intro-loading');
-  const scrollHint = document.getElementById('intro-scroll');
-  if (!canvas || typeof THREE === 'undefined') return;
+(function initScrollIntro() {
+  const canvas   = document.getElementById('intro-canvas');
+  const introEl  = document.getElementById('scroll-intro');
+  if (!canvas || !introEl || typeof THREE === 'undefined') return;
 
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: false, antialias: true });
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setClearColor(0x04040e, 1);
-  renderer.shadowMap.enabled = true;
+  renderer.setClearColor(0x020208, 1);
 
   const scene  = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 200);
-  camera.position.set(0, 1, 8);
-  camera.lookAt(0, 0, 0);
+  scene.fog    = new THREE.FogExp2(0x020208, 0.055);
 
-  // Lighting — strong so the metallic materials catch it
-  scene.add(new THREE.AmbientLight(0x223344, 3));
+  const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 150);
+  camera.position.set(0, 0, 14);
 
-  const tealLight = new THREE.PointLight(0x4BACBA, 18, 25);
-  tealLight.position.set(-4, 2, 4);
-  scene.add(tealLight);
+  const TEAL = 0x4BACBA;
+  const GOLD = 0xC4924A;
 
-  const goldLight = new THREE.PointLight(0xC4924A, 14, 25);
-  goldLight.position.set(4, -1, 4);
-  scene.add(goldLight);
-
-  const frontLight = new THREE.DirectionalLight(0xaabbcc, 2.5);
-  frontLight.position.set(0, 1, 6);
-  scene.add(frontLight);
-
-  const topLight = new THREE.PointLight(0xffffff, 6, 15);
-  topLight.position.set(0, 5, 3);
-  scene.add(topLight);
-
-  // Stars
-  const starPos = new Float32Array(1200 * 3);
-  for (let i = 0; i < starPos.length; i++) starPos[i] = (Math.random() - 0.5) * 80;
+  // ── Stars ──
+  const starPos = new Float32Array(2000 * 3);
+  for (let i = 0; i < starPos.length; i++) starPos[i] = (Math.random() - 0.5) * 100;
   const starGeo = new THREE.BufferGeometry();
   starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
   scene.add(new THREE.Points(starGeo,
-    new THREE.PointsMaterial({ color: 0xffffff, size: 0.08, transparent: true, opacity: 0.5 })
+    new THREE.PointsMaterial({ color: 0xffffff, size: 0.09, transparent: true, opacity: 0.6 })
   ));
 
-  // Mouse tracking state
-  let mouseX = 0, mouseY = 0;
-  let curRotY = 0, curRotX = 0;
-  let model = null;
+  // ── Ring tunnel ──
+  // Rings spread along negative Z axis — camera flies toward them
+  const rings  = [];
+  const RING_COUNT = 10;
+  for (let i = 0; i < RING_COUNT; i++) {
+    const isTeal  = i % 2 === 0;
+    const radius  = 2.2 + (i % 3) * 0.4;
+    const geo     = new THREE.TorusGeometry(radius, 0.025, 16, 120);
+    const mat     = new THREE.MeshBasicMaterial({
+      color: isTeal ? TEAL : GOLD,
+      transparent: true,
+      opacity: 0.7,
+    });
+    const ring    = new THREE.Mesh(geo, mat);
+    ring.position.z = -i * 8;          // space them 8 units apart
+    ring.rotation.x = Math.PI / 2;     // face the camera
+    scene.add(ring);
+    rings.push({ mesh: ring, mat, baseZ: ring.position.z, isTeal });
+  }
 
-  window.addEventListener('mousemove', e => {
-    mouseX = (e.clientX / window.innerWidth  - 0.5) * 2;
-    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-  });
-  window.addEventListener('touchmove', e => {
-    if (!e.touches[0]) return;
-    mouseX = (e.touches[0].clientX / window.innerWidth  - 0.5) * 2;
-    mouseY = (e.touches[0].clientY / window.innerHeight - 0.5) * 2;
-  }, { passive: true });
+  // ── Floating particles inside the tunnel ──
+  const partCount = 300;
+  const partPos   = new Float32Array(partCount * 3);
+  for (let i = 0; i < partCount; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const r     = Math.random() * 3;
+    partPos[i * 3]     = Math.cos(angle) * r;
+    partPos[i * 3 + 1] = Math.sin(angle) * r;
+    partPos[i * 3 + 2] = -(Math.random() * RING_COUNT * 8);
+  }
+  const partGeo = new THREE.BufferGeometry();
+  partGeo.setAttribute('position', new THREE.BufferAttribute(partPos, 3));
+  scene.add(new THREE.Points(partGeo,
+    new THREE.PointsMaterial({ color: TEAL, size: 0.05, transparent: true, opacity: 0.5 })
+  ));
 
-  // Load the robotic eye
-  const loader = new THREE.GLTFLoader();
-  loader.load(
-    'robot.glb',
-    (gltf) => {
-      model = gltf.scene;
-
-      // Centre & scale — robot fills the viewport height
-      const box    = new THREE.Box3().setFromObject(model);
-      const size   = box.getSize(new THREE.Vector3());
-      const center = box.getCenter(new THREE.Vector3());
-      const maxDim = Math.max(size.x, size.y, size.z);
-      const scale  = 5.5 / maxDim;
-      model.scale.setScalar(scale);
-      // Centre horizontally, push down so feet are at bottom of screen
-      model.position.x = -center.x * scale;
-      model.position.y = -center.y * scale - 1.8;
-      model.position.z = -center.z * scale;
-      // Face forward (reset any sideways export rotation)
-      model.rotation.set(0, 0, 0);
-
-      // Keep original textures but boost visibility with env lighting
-      model.traverse(child => {
-        if (child.isMesh) {
-          child.castShadow    = true;
-          child.receiveShadow = true;
-          if (child.material) {
-            // Boost existing materials
-            child.material.metalness  = Math.max(child.material.metalness  || 0, 0.6);
-            child.material.roughness  = Math.min(child.material.roughness  ?? 1, 0.4);
-            child.material.emissive   = child.material.emissive || new THREE.Color(0x111122);
-            child.material.emissiveIntensity = 0.18;
-            child.material.needsUpdate = true;
-          }
-        }
-      });
-
-      scene.add(model);
-
-      // Hide loading, show scroll hint
-      loading.classList.add('hidden');
-      setTimeout(() => scrollHint.classList.add('visible'), 800);
-    },
-    undefined,
-    (err) => {
-      console.warn('GLB load error:', err);
-      loading.classList.add('hidden');
-    }
+  // ── Central glowing core (destination) ──
+  const core = new THREE.Mesh(
+    new THREE.SphereGeometry(0.5, 32, 32),
+    new THREE.MeshBasicMaterial({ color: TEAL })
   );
+  core.position.z = -RING_COUNT * 8 + 4;
+  scene.add(core);
 
-  // Resize
+  // Core glow ring
+  const coreRing = new THREE.Mesh(
+    new THREE.TorusGeometry(1.2, 0.04, 16, 80),
+    new THREE.MeshBasicMaterial({ color: GOLD, transparent: true, opacity: 0.8 })
+  );
+  coreRing.position.z = core.position.z;
+  coreRing.rotation.x = Math.PI / 2;
+  scene.add(coreRing);
+
+  // ── Resize ──
   function resize() {
-    const w = canvas.offsetWidth  || window.innerWidth;
-    const h = canvas.offsetHeight || window.innerHeight;
-    renderer.setSize(w, h, false);
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    renderer.setSize(w, h);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
   }
   resize();
   window.addEventListener('resize', resize);
 
-  // Animate
+  // ── Scroll → camera progress ──
+  function getProgress() {
+    const scrolled = window.scrollY;
+    const total    = introEl.offsetHeight - window.innerHeight;
+    return Math.max(0, Math.min(1, scrolled / total));
+  }
+
+  // Camera travels from Z=14 to Z = (last ring Z + 4)
+  const CAM_START = 14;
+  const CAM_END   = core.position.z + 3;
+
+  // ── Animate ──
   let t = 0;
   function animate() {
     requestAnimationFrame(animate);
     t += 0.016;
 
-    if (model) {
-      // Whole robot subtly turns toward cursor
-      curRotY += (mouseX * 0.35  - curRotY) * 0.03;
-      curRotX += (-mouseY * 0.15 - curRotX) * 0.03;
-      model.rotation.y = curRotY;
-      model.rotation.x = curRotX;
+    const p = getProgress();
 
-      // Subtle idle float
-      model.position.y += (Math.sin(t * 0.5) * 0.05 - model.position.y) * 0.02;
-    }
+    // Camera zoom — lerp z position based on scroll
+    const targetZ = CAM_START + (CAM_END - CAM_START) * p;
+    camera.position.z += (targetZ - camera.position.z) * 0.08;
 
-    // Pulse lights
-    tealLight.intensity = 17 + Math.sin(t * 1.3) * 3;
-    goldLight.intensity = 13 + Math.sin(t * 0.9 + 1.2) * 2;
+    // Subtle camera drift side to side
+    camera.position.x = Math.sin(t * 0.2) * 0.15;
+    camera.position.y = Math.cos(t * 0.15) * 0.10;
+    camera.lookAt(0, 0, camera.position.z - 5);
+
+    // Rings: slow rotation + pulse opacity based on distance to camera
+    rings.forEach(({ mesh, mat }) => {
+      mesh.rotation.z += 0.002;
+      const dist = Math.abs(camera.position.z - mesh.position.z);
+      mat.opacity = Math.max(0.15, 0.9 - dist * 0.04);
+    });
+
+    // Core pulse
+    const pulse = 0.85 + Math.sin(t * 2.5) * 0.15;
+    core.scale.setScalar(pulse);
+    coreRing.rotation.z += 0.01;
 
     renderer.render(scene, camera);
   }
   animate();
-
-  // Stop rendering when intro scrolled out of view (performance)
-  const introEl = document.getElementById('intro');
-  const introObserver = new IntersectionObserver(
-    ([entry]) => { renderer.setAnimationLoop(entry.isIntersecting ? null : null); },
-    { threshold: 0 }
-  );
-  if (introEl) introObserver.observe(introEl);
 })();
 
 // ══════════════════════════════════════════════
@@ -179,7 +161,6 @@ window.addEventListener('load', () => {
     canvas.width  = canvas.offsetWidth  || window.innerWidth;
     canvas.height = canvas.offsetHeight || window.innerHeight;
   }
-
   function initParticles() {
     const count = Math.min(Math.floor((canvas.width * canvas.height) / 13000), 80);
     particles = Array.from({ length: count }, () => ({
@@ -191,7 +172,6 @@ window.addEventListener('load', () => {
       color: Math.random() > 0.5 ? GOLD : TEAL,
     }));
   }
-
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const maxDist = 160;
@@ -223,13 +203,12 @@ window.addEventListener('load', () => {
     });
     requestAnimationFrame(draw);
   }
-
   resize(); initParticles(); draw();
   window.addEventListener('resize', () => { resize(); initParticles(); });
 });
 
 // ══════════════════════════════════════════════
-//  NAVBAR + SCROLL EFFECTS
+//  NAVBAR + GENERAL
 // ══════════════════════════════════════════════
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
@@ -239,14 +218,12 @@ window.addEventListener('scroll', () => {
 const heroContent = document.querySelector('.hero-content');
 window.addEventListener('scroll', () => {
   if (!heroContent) return;
-  // Offset for intro height
-  const introH = document.getElementById('intro')?.offsetHeight || 0;
+  const introH = document.getElementById('scroll-intro')?.offsetHeight || 0;
   const y = Math.max(0, window.scrollY - introH);
   heroContent.style.opacity   = Math.max(0, 1 - y / 480);
   heroContent.style.transform = `translateY(${y * 0.09}px)`;
 }, { passive: true });
 
-// Mobile menu
 const toggle     = document.querySelector('.nav-toggle');
 const mobileMenu = document.querySelector('.nav-mobile');
 toggle?.addEventListener('click', () => mobileMenu.classList.toggle('open'));
@@ -254,7 +231,6 @@ document.querySelectorAll('.nav-mobile a').forEach(l =>
   l.addEventListener('click', () => mobileMenu.classList.remove('open'))
 );
 
-// Reveal on scroll
 const observer = new IntersectionObserver(
   entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
   { threshold: 0.10, rootMargin: '0px 0px -40px 0px' }
@@ -264,7 +240,6 @@ document.querySelectorAll('.reveal').forEach((el, i) => {
   observer.observe(el);
 });
 
-// Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const t = document.querySelector(a.getAttribute('href'));
