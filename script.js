@@ -23,7 +23,8 @@ if (photoWrap) {
 
   const scene  = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 200);
-  camera.position.set(0, 0.5, 7);
+  camera.position.set(0, 1, 8);
+  camera.lookAt(0, 0, 0);
 
   // Lighting — strong so the metallic materials catch it
   scene.add(new THREE.AmbientLight(0x223344, 3));
@@ -80,10 +81,14 @@ if (photoWrap) {
       const size   = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
       const maxDim = Math.max(size.x, size.y, size.z);
-      const scale  = 5.5 / maxDim;          // tall enough to fill screen
+      const scale  = 5.5 / maxDim;
       model.scale.setScalar(scale);
-      model.position.copy(center.multiplyScalar(-scale)); // centre it
-      model.position.y -= 0.5;              // shift slightly down
+      // Centre horizontally, push down so feet are at bottom of screen
+      model.position.x = -center.x * scale;
+      model.position.y = -center.y * scale - 1.8;
+      model.position.z = -center.z * scale;
+      // Face forward (reset any sideways export rotation)
+      model.rotation.set(0, 0, 0);
 
       // Keep original textures but boost visibility with env lighting
       model.traverse(child => {
