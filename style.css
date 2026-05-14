@@ -186,6 +186,92 @@ body {
   pointer-events: none;
 }
 
+/* =============================================
+   INTRO — Fullscreen 3D Eye
+   ============================================= */
+#intro {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #020208;
+}
+
+#intro-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Subtle vignette around edges */
+.intro-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center,
+    transparent 35%,
+    rgba(2,2,8,0.55) 70%,
+    rgba(2,2,8,0.92) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Loading pill */
+.intro-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-family: var(--font-head);
+  letter-spacing: 1px;
+  transition: opacity 0.8s ease;
+}
+.intro-loading.hidden { opacity: 0; pointer-events: none; }
+.hl-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--teal);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+/* Scroll hint */
+.intro-scroll {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-dim);
+  font-size: 11px;
+  font-family: var(--font-head);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 1s ease;
+  pointer-events: none;
+}
+.intro-scroll.visible { opacity: 1; }
+.intro-arrow {
+  width: 1px;
+  height: 32px;
+  background: linear-gradient(to bottom, var(--teal), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.4; transform: scaleY(1); }
+  50%       { opacity: 1;   transform: scaleY(1.1); }
+}
+
 /* Neural network canvas */
 #neural-canvas {
   position: absolute;
@@ -217,13 +303,8 @@ body {
   width: 350px; height: 350px;
   background: radial-gradient(circle, #C4924A 0%, transparent 70%);
   top: 40%; left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%,-50%);
   opacity: 0.12;
-}
-
-@keyframes float3 {
-  0%, 100% { transform: translate(-50%,-50%) scale(1); }
-  50%       { transform: translate(-50%,-50%) scale(1.2); }
 }
 
 .grid-overlay {

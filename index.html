@@ -73,6 +73,19 @@
     </div>
   </nav>
 
+  <!-- INTRO: Fullscreen 3D Eye -->
+  <div id="intro">
+    <canvas id="intro-canvas"></canvas>
+    <div class="intro-overlay"></div>
+    <div class="intro-loading" id="intro-loading">
+      <div class="hl-dot"></div><span>Initialiseren…</span>
+    </div>
+    <div class="intro-scroll" id="intro-scroll">
+      <span>Scroll</span>
+      <div class="intro-arrow"></div>
+    </div>
+  </div>
+
   <!-- HERO -->
   <section id="hero">
     <div class="hero-bg">
@@ -333,6 +346,8 @@
     </div>
   </footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
   <script src="script.js"></script>
 
   <!-- ElevenLabs Voice Assistent -->
