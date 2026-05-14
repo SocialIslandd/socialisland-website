@@ -186,46 +186,12 @@ body {
   pointer-events: none;
 }
 
-/* Neural canvas */
-#neural-canvas {
+/* Three.js canvas */
+#hero-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.7;
-}
-
-/* Ambient orbs */
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.45;
-}
-.orb-1 {
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, #C4924A 0%, transparent 70%);
-  top: -100px; left: -100px;
-  animation: float1 8s ease-in-out infinite;
-}
-.orb-2 {
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, #4BACBA 0%, transparent 70%);
-  bottom: -80px; right: -80px;
-  animation: float2 10s ease-in-out infinite;
-}
-.orb-3 {
-  width: 350px; height: 350px;
-  background: radial-gradient(circle, #E0B06A 0%, transparent 70%);
-  top: 40%; left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0.12;
-  animation: float3 12s ease-in-out infinite;
-}
-
-@keyframes float3 {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); }
-  50%       { transform: translate(-50%, -50%) scale(1.2); }
 }
 
 .grid-overlay {
