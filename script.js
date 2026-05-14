@@ -1,3 +1,5 @@
+import { animate, scroll, inView } from 'https://cdn.jsdelivr.net/npm/motion@11/+esm';
+
 // Load photo dynamically
 const photoWrap = document.getElementById('photo-wrap');
 if (photoWrap) {
@@ -101,16 +103,15 @@ if (photoWrap) {
   resize();
   window.addEventListener('resize', resize);
 
-  // ── Scroll → camera progress ──
-  function getProgress() {
-    const scrolled = window.scrollY;
-    const total    = introEl.offsetHeight - window.innerHeight;
-    return Math.max(0, Math.min(1, scrolled / total));
-  }
-
   // Camera travels from Z=14 to Z = (last ring Z + 4)
   const CAM_START = 14;
   const CAM_END   = core.position.z + 3;
+  let   camTargetZ = CAM_START;
+
+  // ── Motion scroll → camera ──
+  scroll(({ y }) => {
+    camTargetZ = CAM_START + (CAM_END - CAM_START) * y.progress;
+  }, { target: introEl });
 
   // ── Animate ──
   let t = 0;
@@ -118,11 +119,8 @@ if (photoWrap) {
     requestAnimationFrame(animate);
     t += 0.016;
 
-    const p = getProgress();
-
-    // Camera zoom — lerp z position based on scroll
-    const targetZ = CAM_START + (CAM_END - CAM_START) * p;
-    camera.position.z += (targetZ - camera.position.z) * 0.08;
+    // Smooth camera lerp toward scroll target
+    camera.position.z += (camTargetZ - camera.position.z) * 0.08;
 
     // Subtle camera drift side to side
     camera.position.x = Math.sin(t * 0.2) * 0.15;
@@ -215,14 +213,26 @@ window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 40);
 }, { passive: true });
 
+// Hero content: fade in when it enters view, fade out on scroll
+const heroSection = document.getElementById('hero');
 const heroContent = document.querySelector('.hero-content');
-window.addEventListener('scroll', () => {
-  if (!heroContent) return;
-  const introH = document.getElementById('scroll-intro')?.offsetHeight || 0;
-  const y = Math.max(0, window.scrollY - introH);
-  heroContent.style.opacity   = Math.max(0, 1 - y / 480);
-  heroContent.style.transform = `translateY(${y * 0.09}px)`;
-}, { passive: true });
+
+if (heroContent) {
+  heroContent.style.opacity = '0';
+  inView(heroSection, () => {
+    animate(heroContent,
+      { opacity: [0, 1], y: [40, 0] },
+      { duration: 1, easing: [0.16, 1, 0.3, 1] }
+    );
+  });
+
+  scroll(({ y }) => {
+    const introH = document.getElementById('scroll-intro')?.offsetHeight || 0;
+    const relY   = Math.max(0, window.scrollY - introH);
+    heroContent.style.opacity   = String(Math.max(0, 1 - relY / 480));
+    heroContent.style.transform = `translateY(${relY * 0.09}px)`;
+  });
+}
 
 const toggle     = document.querySelector('.nav-toggle');
 const mobileMenu = document.querySelector('.nav-mobile');
@@ -231,13 +241,18 @@ document.querySelectorAll('.nav-mobile a').forEach(l =>
   l.addEventListener('click', () => mobileMenu.classList.remove('open'))
 );
 
-const observer = new IntersectionObserver(
-  entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
-  { threshold: 0.10, rootMargin: '0px 0px -40px 0px' }
-);
+// Motion inView — animate each .reveal element as it enters viewport
 document.querySelectorAll('.reveal').forEach((el, i) => {
-  el.style.transitionDelay = `${(i % 4) * 80}ms`;
-  observer.observe(el);
+  // Set initial state
+  el.style.opacity  = '0';
+  el.style.transform = 'translateY(30px)';
+
+  inView(el, () => {
+    animate(el,
+      { opacity: [0, 1], y: [30, 0] },
+      { duration: 0.7, delay: (i % 4) * 0.08, easing: [0.25, 0.1, 0.25, 1] }
+    );
+  }, { margin: '0px 0px -40px 0px' });
 });
 
 document.querySelectorAll('a[href^="#"]').forEach(a => {
