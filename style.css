@@ -168,66 +168,80 @@ body {
 .nav-mobile.open { display: flex; }
 
 /* =============================================
-   HERO — Spline fullscreen background
+   HERO
    ============================================= */
 #hero {
   position: relative;
-  height: 100vh;             /* exact height — lets Spline children use 100% */
-  min-height: 600px;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  padding: 120px 24px 80px;
 }
 
-/* ── Spline 3D fills the entire hero ── */
-.spline-wrap {
+.hero-bg {
   position: absolute;
   inset: 0;
-  z-index: 1;
-  pointer-events: none;       /* let clicks pass to hero buttons */
-  overflow: hidden;
+  pointer-events: none;
 }
-.spline-wrap spline-viewer {
-  display: block;
+
+/* Neural canvas */
+#neural-canvas {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+  opacity: 0.7;
 }
 
-/* Gradient overlay: dark vignette so text is always readable */
-.spline-wrap::before {
-  content: '';
+/* Ambient orbs */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.45;
+}
+.orb-1 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, #C4924A 0%, transparent 70%);
+  top: -100px; left: -100px;
+  animation: float1 8s ease-in-out infinite;
+}
+.orb-2 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #4BACBA 0%, transparent 70%);
+  bottom: -80px; right: -80px;
+  animation: float2 10s ease-in-out infinite;
+}
+.orb-3 {
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, #E0B06A 0%, transparent 70%);
+  top: 40%; left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.12;
+  animation: float3 12s ease-in-out infinite;
+}
+
+@keyframes float3 {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50%       { transform: translate(-50%, -50%) scale(1.2); }
+}
+
+.grid-overlay {
   position: absolute;
   inset: 0;
-  z-index: 2;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 50%,
-      transparent 30%,
-      rgba(4,4,10,0.55) 70%,
-      rgba(4,4,10,0.90) 100%),
-    linear-gradient(to bottom,
-      rgba(4,4,10,0.35) 0%,
-      transparent 40%,
-      transparent 60%,
-      rgba(4,4,10,0.70) 100%);
-  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 20%, transparent 80%);
 }
 
-/* Hide Spline watermark */
-.spline-wrap::after {
-  content: '';
-  position: absolute;
-  bottom: 0; right: 0;
-  width: 220px; height: 56px;
-  background: var(--bg);
-  z-index: 20;
-  pointer-events: none;
-}
-
-/* ── Hero text layer ── */
+/* Hero layout */
 .hero-inner {
   position: relative;
-  z-index: 3;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -237,7 +251,11 @@ body {
   text-align: center;
 }
 
-.hero-content { width: 100%; }
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
 
 .hero-badge {
   display: inline-flex;
