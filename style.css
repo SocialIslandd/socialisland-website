@@ -303,7 +303,8 @@ body {
   pointer-events: auto;
   overflow: hidden;
 }
-.spline-wrap iframe {
+.spline-wrap iframe,
+.spline-wrap spline-viewer {
   width: 100%;
   height: 100%;
   border: none;
