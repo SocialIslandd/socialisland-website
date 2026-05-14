@@ -58,13 +58,10 @@ body {
   background-clip: text;
 }
 
-/* REVEAL */
+/* REVEAL — hidden only via JS, never via CSS (prevents blank page if script slow) */
 .reveal {
-  opacity: 0;
-  transform: translateY(28px);
   transition: opacity 0.75s ease, transform 0.75s ease;
 }
-.reveal.visible { opacity: 1; transform: translateY(0); }
 
 /* =============================================
    NAVIGATION
