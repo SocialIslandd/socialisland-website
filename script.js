@@ -22,8 +22,8 @@ if (photoWrap) {
   renderer.shadowMap.enabled = true;
 
   const scene  = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-  camera.position.set(0, 0, 5);
+  const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 200);
+  camera.position.set(0, 0.5, 7);
 
   // Lighting — strong so the metallic materials catch it
   scene.add(new THREE.AmbientLight(0x223344, 3));
@@ -71,35 +71,33 @@ if (photoWrap) {
   // Load the robotic eye
   const loader = new THREE.GLTFLoader();
   loader.load(
-    'robotic_eye.glb',
+    'robot.glb',
     (gltf) => {
       model = gltf.scene;
 
-      // Centre & scale the model to fill the view nicely
-      const box = new THREE.Box3().setFromObject(model);
+      // Centre & scale — robot fills the viewport height
+      const box    = new THREE.Box3().setFromObject(model);
       const size   = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
       const maxDim = Math.max(size.x, size.y, size.z);
-      const scale  = 2.8 / maxDim;
+      const scale  = 5.5 / maxDim;          // tall enough to fill screen
       model.scale.setScalar(scale);
-      model.position.sub(center.multiplyScalar(scale));
+      model.position.copy(center.multiplyScalar(-scale)); // centre it
+      model.position.y -= 0.5;              // shift slightly down
 
-      // Override materials — glowing metallic so it's always visible on dark bg
-      let meshIndex = 0;
+      // Keep original textures but boost visibility with env lighting
       model.traverse(child => {
         if (child.isMesh) {
           child.castShadow    = true;
           child.receiveShadow = true;
-          // Alternate teal / gold per mesh for visual detail
-          const isTeal = meshIndex % 2 === 0;
-          child.material = new THREE.MeshStandardMaterial({
-            color:             isTeal ? 0x1a3a3a : 0x2a1a08,
-            metalness:         0.9,
-            roughness:         0.15,
-            emissive:          new THREE.Color(isTeal ? 0x4BACBA : 0xC4924A),
-            emissiveIntensity: 0.45,
-          });
-          meshIndex++;
+          if (child.material) {
+            // Boost existing materials
+            child.material.metalness  = Math.max(child.material.metalness  || 0, 0.6);
+            child.material.roughness  = Math.min(child.material.roughness  ?? 1, 0.4);
+            child.material.emissive   = child.material.emissive || new THREE.Color(0x111122);
+            child.material.emissiveIntensity = 0.18;
+            child.material.needsUpdate = true;
+          }
         }
       });
 
@@ -134,14 +132,14 @@ if (photoWrap) {
     t += 0.016;
 
     if (model) {
-      // Smooth cursor follow — eye "looks" at cursor
-      curRotY += (mouseX * 0.55  - curRotY) * 0.04;
-      curRotX += (-mouseY * 0.35 - curRotX) * 0.04;
+      // Whole robot subtly turns toward cursor
+      curRotY += (mouseX * 0.35  - curRotY) * 0.03;
+      curRotX += (-mouseY * 0.15 - curRotX) * 0.03;
       model.rotation.y = curRotY;
       model.rotation.x = curRotX;
 
       // Subtle idle float
-      model.position.y = Math.sin(t * 0.6) * 0.04;
+      model.position.y += (Math.sin(t * 0.5) * 0.05 - model.position.y) * 0.02;
     }
 
     // Pulse lights
