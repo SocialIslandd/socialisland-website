@@ -1,6 +1,8 @@
 import { animate, scroll, inView } from 'https://cdn.jsdelivr.net/npm/motion@11/+esm';
 
-// Load photo dynamically
+// ══════════════════════════════════════════════
+//  PHOTO — load dynamically
+// ══════════════════════════════════════════════
 const photoWrap = document.getElementById('photo-wrap');
 if (photoWrap) {
   const img = new Image();
@@ -40,7 +42,6 @@ if (photoWrap) {
   ));
 
   // ── Ring tunnel ──
-  // Rings spread along negative Z axis — camera flies toward them
   const rings  = [];
   const RING_COUNT = 10;
   for (let i = 0; i < RING_COUNT; i++) {
@@ -53,13 +54,13 @@ if (photoWrap) {
       opacity: 0.7,
     });
     const ring    = new THREE.Mesh(geo, mat);
-    ring.position.z = -i * 8;          // space them 8 units apart
-    ring.rotation.x = Math.PI / 2;     // face the camera
+    ring.position.z = -i * 8;
+    ring.rotation.x = Math.PI / 2;
     scene.add(ring);
     rings.push({ mesh: ring, mat, baseZ: ring.position.z, isTeal });
   }
 
-  // ── Floating particles inside the tunnel ──
+  // ── Floating particles ──
   const partCount = 300;
   const partPos   = new Float32Array(partCount * 3);
   for (let i = 0; i < partCount; i++) {
@@ -75,7 +76,7 @@ if (photoWrap) {
     new THREE.PointsMaterial({ color: TEAL, size: 0.05, transparent: true, opacity: 0.5 })
   ));
 
-  // ── Central glowing core (destination) ──
+  // ── Central glowing core ──
   const core = new THREE.Mesh(
     new THREE.SphereGeometry(0.5, 32, 32),
     new THREE.MeshBasicMaterial({ color: TEAL })
@@ -83,7 +84,6 @@ if (photoWrap) {
   core.position.z = -RING_COUNT * 8 + 4;
   scene.add(core);
 
-  // Core glow ring
   const coreRing = new THREE.Mesh(
     new THREE.TorusGeometry(1.2, 0.04, 16, 80),
     new THREE.MeshBasicMaterial({ color: GOLD, transparent: true, opacity: 0.8 })
@@ -103,45 +103,37 @@ if (photoWrap) {
   resize();
   window.addEventListener('resize', resize);
 
-  // Camera travels from Z=14 to Z = (last ring Z + 4)
   const CAM_START = 14;
   const CAM_END   = core.position.z + 3;
   let   camTargetZ = CAM_START;
 
-  // ── Motion scroll → camera ──
   scroll(({ y }) => {
     camTargetZ = CAM_START + (CAM_END - CAM_START) * y.progress;
   }, { target: introEl });
 
-  // ── Animate ──
   let t = 0;
-  function animate() {
-    requestAnimationFrame(animate);
+  function loop() {
+    requestAnimationFrame(loop);
     t += 0.016;
 
-    // Smooth camera lerp toward scroll target
     camera.position.z += (camTargetZ - camera.position.z) * 0.08;
-
-    // Subtle camera drift side to side
     camera.position.x = Math.sin(t * 0.2) * 0.15;
     camera.position.y = Math.cos(t * 0.15) * 0.10;
     camera.lookAt(0, 0, camera.position.z - 5);
 
-    // Rings: slow rotation + pulse opacity based on distance to camera
     rings.forEach(({ mesh, mat }) => {
       mesh.rotation.z += 0.002;
       const dist = Math.abs(camera.position.z - mesh.position.z);
       mat.opacity = Math.max(0.15, 0.9 - dist * 0.04);
     });
 
-    // Core pulse
     const pulse = 0.85 + Math.sin(t * 2.5) * 0.15;
     core.scale.setScalar(pulse);
     coreRing.rotation.z += 0.01;
 
     renderer.render(scene, camera);
   }
-  animate();
+  loop();
 })();
 
 // ══════════════════════════════════════════════
@@ -206,34 +198,57 @@ window.addEventListener('load', () => {
 });
 
 // ══════════════════════════════════════════════
-//  NAVBAR + GENERAL
+//  HERO CARD — Spotlight Effect
+// ══════════════════════════════════════════════
+const heroCard      = document.getElementById('hero-card');
+const heroSpotlight = document.getElementById('hero-spotlight');
+
+if (heroCard && heroSpotlight) {
+  heroCard.addEventListener('mousemove', (e) => {
+    const rect = heroCard.getBoundingClientRect();
+    heroSpotlight.style.left    = (e.clientX - rect.left) + 'px';
+    heroSpotlight.style.top     = (e.clientY - rect.top)  + 'px';
+    heroSpotlight.style.opacity = '1';
+  });
+  heroCard.addEventListener('mouseleave', () => {
+    heroSpotlight.style.opacity = '0';
+  });
+}
+
+// ══════════════════════════════════════════════
+//  NAVBAR
 // ══════════════════════════════════════════════
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 40);
 }, { passive: true });
 
-// Hero content: fade in when it enters view, fade out on scroll
+// ══════════════════════════════════════════════
+//  HERO CONTENT — fade in / fade on scroll
+// ══════════════════════════════════════════════
 const heroSection = document.getElementById('hero');
-const heroContent = document.querySelector('.hero-content');
+const heroContent = document.querySelector('.hero-card-left');
 
 if (heroContent) {
   heroContent.style.opacity = '0';
   inView(heroSection, () => {
     animate(heroContent,
-      { opacity: [0, 1], y: [40, 0] },
-      { duration: 1, easing: [0.16, 1, 0.3, 1] }
+      { opacity: [0, 1], y: [30, 0] },
+      { duration: 0.9, easing: [0.16, 1, 0.3, 1] }
     );
   });
 
   scroll(({ y }) => {
     const introH = document.getElementById('scroll-intro')?.offsetHeight || 0;
     const relY   = Math.max(0, window.scrollY - introH);
-    heroContent.style.opacity   = String(Math.max(0, 1 - relY / 480));
-    heroContent.style.transform = `translateY(${relY * 0.09}px)`;
+    heroContent.style.opacity   = String(Math.max(0, 1 - relY / 600));
+    heroContent.style.transform = `translateY(${relY * 0.06}px)`;
   });
 }
 
+// ══════════════════════════════════════════════
+//  MOBILE MENU
+// ══════════════════════════════════════════════
 const toggle     = document.querySelector('.nav-toggle');
 const mobileMenu = document.querySelector('.nav-mobile');
 toggle?.addEventListener('click', () => mobileMenu.classList.toggle('open'));
@@ -241,20 +256,51 @@ document.querySelectorAll('.nav-mobile a').forEach(l =>
   l.addEventListener('click', () => mobileMenu.classList.remove('open'))
 );
 
-// Motion inView — animate each .reveal element as it enters viewport
+// ══════════════════════════════════════════════
+//  REVEAL ANIMATIONS — inView
+// ══════════════════════════════════════════════
 document.querySelectorAll('.reveal').forEach((el, i) => {
-  // Set initial state
   el.style.opacity  = '0';
   el.style.transform = 'translateY(30px)';
 
   inView(el, () => {
     animate(el,
       { opacity: [0, 1], y: [30, 0] },
-      { duration: 0.7, delay: (i % 4) * 0.08, easing: [0.25, 0.1, 0.25, 1] }
+      { duration: 0.7, delay: (i % 4) * 0.07, easing: [0.25, 0.1, 0.25, 1] }
     );
   }, { margin: '0px 0px -40px 0px' });
 });
 
+// ══════════════════════════════════════════════
+//  COUNTER ANIMATIONS — metrics strip
+// ══════════════════════════════════════════════
+function animateCounter(el) {
+  const target   = parseInt(el.dataset.count, 10);
+  const duration = 1800;
+  const startTime = performance.now();
+
+  function update(now) {
+    const elapsed  = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease out cubic
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target);
+    if (progress < 1) requestAnimationFrame(update);
+    else el.textContent = target;
+  }
+  requestAnimationFrame(update);
+}
+
+document.querySelectorAll('[data-count]').forEach(el => {
+  let triggered = false;
+  inView(el, () => {
+    if (!triggered) { triggered = true; animateCounter(el); }
+  }, { margin: '0px 0px -20px 0px' });
+});
+
+// ══════════════════════════════════════════════
+//  SMOOTH SCROLL — anchor links
+// ══════════════════════════════════════════════
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const t = document.querySelector(a.getAttribute('href'));

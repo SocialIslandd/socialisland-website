@@ -59,6 +59,7 @@
         <a href="#werkwijze">Werkwijze</a>
         <a href="#over-ons">Over ons</a>
         <a href="#voor-wie">Voor wie</a>
+        <a href="https://calendly.com/socialisland" target="_blank" class="btn-nav">Gratis call →</a>
       </div>
       <button class="nav-toggle" aria-label="menu">
         <span></span><span></span><span></span>
@@ -82,7 +83,7 @@
     </div>
   </div>
 
-  <!-- HERO -->
+  <!-- HERO — Spotlight Card + Spline 3D -->
   <section id="hero">
     <div class="hero-bg">
       <canvas id="neural-canvas"></canvas>
@@ -93,46 +94,94 @@
     </div>
 
     <div class="hero-inner">
-    <div class="hero-content reveal">
-      <div class="hero-badge">
-        <span class="badge-dot"></span>
-        AI & Automatisaties voor groeiende ondernemers
-      </div>
-      <h1>
-        Jouw business op <br />
-        <span class="gradient-text">automatische piloot</span>
-      </h1>
-      <p class="hero-sub">
-        Wij bouwen slimme AI-systemen, funnels en back-end workflows<br class="hide-mobile" />
-        zodat jij kunt focussen op wat écht telt.
-      </p>
-      <div class="hero-ctas">
-        <a href="https://calendly.com/socialisland" target="_blank" class="btn-primary">
-          Boek een gratis strategiecall
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <a href="#diensten" class="btn-ghost">Bekijk onze diensten</a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-num gradient-text">7k+</span>
-          <span class="stat-label">Omzet per maand</span>
+      <div class="hero-card reveal" id="hero-card">
+
+        <!-- Spotlight layer — follows cursor -->
+        <div class="hero-spotlight" id="hero-spotlight"></div>
+
+        <!-- Left: text content -->
+        <div class="hero-card-left">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            AI & Automatisaties voor groeiende ondernemers
+          </div>
+          <h1>
+            Jouw business op<br />
+            <span class="gradient-text">automatische piloot</span>
+          </h1>
+          <p class="hero-sub">
+            Wij bouwen slimme AI-systemen, funnels en back-end workflows zodat jij kunt focussen op wat écht telt.
+          </p>
+          <div class="hero-ctas">
+            <a href="https://calendly.com/socialisland" target="_blank" class="btn-primary">
+              Boek een gratis strategiecall
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="#diensten" class="btn-ghost">Bekijk diensten</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <span class="stat-num gradient-text">7k+</span>
+              <span class="stat-label">Omzet per maand</span>
+            </div>
+            <div class="stat-line"></div>
+            <div class="stat">
+              <span class="stat-num gradient-text">AI</span>
+              <span class="stat-label">First aanpak</span>
+            </div>
+            <div class="stat-line"></div>
+            <div class="stat">
+              <span class="stat-num gradient-text">100%</span>
+              <span class="stat-label">Ontzorgd</span>
+            </div>
+          </div>
         </div>
-        <div class="stat-line"></div>
-        <div class="stat">
-          <span class="stat-num gradient-text">AI</span>
-          <span class="stat-label">First aanpak</span>
+
+        <!-- Right: Spline 3D scene -->
+        <div class="hero-card-right">
+          <spline-viewer
+            url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+          ></spline-viewer>
         </div>
-        <div class="stat-line"></div>
-        <div class="stat">
-          <span class="stat-num gradient-text">100%</span>
-          <span class="stat-label">Ontzorgd</span>
-        </div>
+
       </div>
     </div>
-
-    </div><!-- end hero-inner -->
   </section>
+
+  <!-- TOOLS MARQUEE -->
+  <div class="tools-strip">
+    <div class="tools-fade tools-fade-left"></div>
+    <div class="tools-marquee">
+      <div class="tools-track">
+        <span>Make.com</span><span class="sep">·</span>
+        <span>n8n</span><span class="sep">·</span>
+        <span>Zapier</span><span class="sep">·</span>
+        <span>Claude API</span><span class="sep">·</span>
+        <span>OpenAI</span><span class="sep">·</span>
+        <span>GoHighLevel</span><span class="sep">·</span>
+        <span>ClickFunnels</span><span class="sep">·</span>
+        <span>Voiceflow</span><span class="sep">·</span>
+        <span>Meta Ads</span><span class="sep">·</span>
+        <span>Google Ads</span><span class="sep">·</span>
+        <span>GTM</span><span class="sep">·</span>
+        <span>Systeme.io</span><span class="sep">·</span>
+        <!-- duplicate for seamless loop -->
+        <span>Make.com</span><span class="sep">·</span>
+        <span>n8n</span><span class="sep">·</span>
+        <span>Zapier</span><span class="sep">·</span>
+        <span>Claude API</span><span class="sep">·</span>
+        <span>OpenAI</span><span class="sep">·</span>
+        <span>GoHighLevel</span><span class="sep">·</span>
+        <span>ClickFunnels</span><span class="sep">·</span>
+        <span>Voiceflow</span><span class="sep">·</span>
+        <span>Meta Ads</span><span class="sep">·</span>
+        <span>Google Ads</span><span class="sep">·</span>
+        <span>GTM</span><span class="sep">·</span>
+        <span>Systeme.io</span><span class="sep">·</span>
+      </div>
+    </div>
+    <div class="tools-fade tools-fade-right"></div>
+  </div>
 
   <!-- DIENSTEN -->
   <section id="diensten">
@@ -145,6 +194,7 @@
       <div class="services-grid">
 
         <div class="service-card reveal">
+          <div class="service-num">01</div>
           <div class="service-icon-wrap">
             <div class="service-icon">⚡</div>
           </div>
@@ -156,6 +206,7 @@
         </div>
 
         <div class="service-card reveal">
+          <div class="service-num">02</div>
           <div class="service-icon-wrap">
             <div class="service-icon">🎯</div>
           </div>
@@ -167,6 +218,7 @@
         </div>
 
         <div class="service-card reveal">
+          <div class="service-num">03</div>
           <div class="service-icon-wrap">
             <div class="service-icon">🤖</div>
           </div>
@@ -178,6 +230,7 @@
         </div>
 
         <div class="service-card reveal">
+          <div class="service-num">04</div>
           <div class="service-icon-wrap">
             <div class="service-icon">📣</div>
           </div>
@@ -192,7 +245,42 @@
     </div>
   </section>
 
-  <!-- WERKWIJZE -->
+  <!-- METRICS STRIP -->
+  <div class="metrics-strip">
+    <div class="container">
+      <div class="metrics-grid">
+        <div class="metric reveal">
+          <div class="metric-num-wrap">
+            <span class="metric-num gradient-text" data-count="15">0</span><span class="metric-num gradient-text">+</span>
+          </div>
+          <span class="metric-label">Klanten geholpen</span>
+        </div>
+        <div class="metric-line"></div>
+        <div class="metric reveal">
+          <div class="metric-num-wrap">
+            <span class="metric-num gradient-text" data-count="50">0</span><span class="metric-num gradient-text">+</span>
+          </div>
+          <span class="metric-label">Automatisaties gebouwd</span>
+        </div>
+        <div class="metric-line"></div>
+        <div class="metric reveal">
+          <div class="metric-num-wrap">
+            <span class="metric-num gradient-text" data-count="30">0</span><span class="metric-num gradient-text">u+</span>
+          </div>
+          <span class="metric-label">Bespaard per week</span>
+        </div>
+        <div class="metric-line"></div>
+        <div class="metric reveal">
+          <div class="metric-num-wrap">
+            <span class="metric-num gradient-text" data-count="100">0</span><span class="metric-num gradient-text">%</span>
+          </div>
+          <span class="metric-label">Klant tevredenheid</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WERKWIJZE — Vertical timeline -->
   <section id="werkwijze">
     <div class="container">
       <div class="section-header reveal">
@@ -200,23 +288,33 @@
         <h2>Van chaos naar <span class="gradient-text">geautomatiseerd systeem</span></h2>
         <p>In drie stappen bouwen we jouw back-end zo dat het voor jou werkt, ook als jij dat niet doet.</p>
       </div>
-      <div class="steps">
-        <div class="step reveal">
-          <div class="step-num gradient-text">01</div>
-          <h3>Strategiecall</h3>
-          <p>We analyseren jouw business, bottlenecks en groeikansen. We stellen een op maat gemaakt automatiseringsplan op.</p>
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-node">
+            <span>01</span>
+          </div>
+          <div class="timeline-content">
+            <h3>Strategiecall</h3>
+            <p>We analyseren jouw business, bottlenecks en groeikansen. We stellen een op maat gemaakt automatiseringsplan op dat past bij jouw doelen.</p>
+          </div>
         </div>
-        <div class="step-arrow">→</div>
-        <div class="step reveal">
-          <div class="step-num gradient-text">02</div>
-          <h3>Bouwen & Integreren</h3>
-          <p>Wij bouwen jouw AI-systemen, koppelen alles aan elkaar en testen tot alles vlekkeloos werkt.</p>
+        <div class="timeline-item reveal">
+          <div class="timeline-node">
+            <span>02</span>
+          </div>
+          <div class="timeline-content">
+            <h3>Bouwen & Integreren</h3>
+            <p>Wij bouwen jouw AI-systemen, koppelen alles aan elkaar en testen tot alles vlekkeloos werkt. Jij hoeft niets te doen.</p>
+          </div>
         </div>
-        <div class="step-arrow">→</div>
-        <div class="step reveal">
-          <div class="step-num gradient-text">03</div>
-          <h3>Live & Schalen</h3>
-          <p>Je systemen gaan live. Jij groeit. Wij staan klaar voor optimalisaties en uitbreidingen wanneer jij klaar bent voor de volgende stap.</p>
+        <div class="timeline-item reveal">
+          <div class="timeline-node">
+            <span>03</span>
+          </div>
+          <div class="timeline-content">
+            <h3>Live & Schalen</h3>
+            <p>Je systemen gaan live. Jij groeit. Wij staan klaar voor optimalisaties en uitbreidingen wanneer jij klaar bent voor de volgende stap.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -227,7 +325,6 @@
     <div class="container">
       <div class="about-grid">
         <div class="about-image reveal">
-          <!-- Vervang de src hieronder door jouw foto -->
           <div class="photo-placeholder" id="photo-wrap">
             <div class="photo-fallback">
               <span class="photo-initials">B & C</span>
@@ -260,6 +357,27 @@
             </div>
           </div>
           <a href="https://calendly.com/socialisland" target="_blank" class="btn-primary">Plan een kennismaking →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL -->
+  <section id="testimonial">
+    <div class="container">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-top-line"></div>
+        <div class="quote-mark">"</div>
+        <blockquote>
+          Dankzij Social Island draait mijn hele funnel en klantopvolging nu volledig op autopiloot. Ik hoef me nooit meer druk te maken over de techniek — alles werkt gewoon, ook als ik niet achter mijn laptop zit.
+        </blockquote>
+        <div class="testimonial-author">
+          <div class="author-avatar">S</div>
+          <div class="author-info">
+            <strong>Sarah V.</strong>
+            <span>Online Coach & Ondernemer</span>
+          </div>
+          <div class="author-stars">★★★★★</div>
         </div>
       </div>
     </div>
@@ -342,6 +460,8 @@
     </div>
   </footer>
 
+  <!-- Spline viewer web component (no React needed) -->
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.0.76/build/spline-viewer.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script type="module" src="script.js"></script>
 
