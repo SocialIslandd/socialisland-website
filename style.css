@@ -221,6 +221,10 @@ body {
   position: relative;
   z-index: 2;
   width: 100%;
+  /* subtle dark backdrop so text stays readable over the 3D scene */
+  background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(4,4,10,0.55) 0%, transparent 100%);
+  padding: 40px 20px;
+  border-radius: 24px;
 }
 
 .hero-badge {
