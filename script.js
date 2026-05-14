@@ -80,16 +80,24 @@ const aiCore        = document.querySelector('.ai-core');
 const heroBg        = document.querySelector('.hero-bg');
 const heroContent   = document.querySelector('.hero-content');
 const techBadges    = document.querySelector('.tech-badges');
+const robotIcon     = document.querySelector('.ai-icon');
 
 window.addEventListener('scroll', () => {
   const y = window.scrollY;
-  if (heroBg)      heroBg.style.transform      = `translateY(${y * 0.4}px)`;
-  if (aiCore)      aiCore.style.transform       = `translateY(calc(-50% + ${y * 0.25}px))`;
+  if (heroBg)      heroBg.style.transform = `translateY(${y * 0.4}px)`;
+  if (aiCore)      aiCore.style.transform  = `translateY(calc(-50% + ${y * 0.2}px))`;
   if (heroContent) {
     heroContent.style.transform = `translateY(${y * 0.15}px)`;
     heroContent.style.opacity   = Math.max(0, 1 - y / 500);
   }
-  if (techBadges)  techBadges.style.transform   = `translateY(${y * 0.2}px)`;
+  if (techBadges)  techBadges.style.transform = `translateY(${y * 0.2}px)`;
+
+  // Robot: beweegt omhoog + lichte kanteling bij scrollen
+  if (robotIcon) {
+    const tilt = Math.min(y * 0.04, 12);
+    robotIcon.style.transform = `translateY(${-y * 0.08}px) rotate(${tilt}deg)`;
+    robotIcon.style.filter    = `drop-shadow(0 0 ${12 + y * 0.04}px rgba(75,172,186,${0.4 + y * 0.0004}))`;
+  }
 }, { passive: true });
 
 // Navbar scroll effect
