@@ -10,15 +10,15 @@
 
   // Brand colors: copper #735741 · cream #f2dcce · teal #18727d
   const gradientColors = [
-    '#2a5c62',   // teal centrum — zichtbaar!
-    '#1e3e42',   // teal mid
-    '#162e2c',   // donker teal
-    '#2a1e0e',   // koper hint
-    '#1a1208',   // donker warm
-    '#0e0c08',   // bijna zwart rand
-    '#0a0e0c'    // rand
+    '#0e1210',   // warm dark base
+    '#1a3a3e',   // dark teal
+    '#2a6268',   // zichtbaar teal centrum
+    '#1a3028',   // teal-donker
+    '#3a2010',   // warm koper zichtbaar
+    '#1a1008',   // donker warm rand
+    '#0e1210'    // warm dark base
   ];
-  const gradientStops  = [0, 20, 40, 60, 75, 88, 100];
+  const gradientStops  = [35, 50, 60, 70, 80, 90, 100];
   const startingGap    = 105;
   const breathingRange = 5;
   const animationSpeed = 0.02;
