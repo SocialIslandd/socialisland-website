@@ -166,9 +166,16 @@ document.querySelectorAll('[data-count]').forEach(el => {
   const wrap = document.getElementById('orbital-wrap');
   if (!wrap) return;
 
+  const icons = {
+    workflow: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>`,
+    funnel:   `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>`,
+    ai:       `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1" fill="currentColor"/></svg>`,
+    ads:      `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v4H3zM3 10h18v4H3zM3 17h18v4H3z"/></svg>`,
+  };
+
   const services = [
     {
-      id: 0, icon: '⚡',
+      id: 0, icon: icons.workflow,
       title: 'AI Workflows',
       fullTitle: 'AI Workflows & Automatisaties',
       desc: 'Slimme AI-systemen die je repetitieve taken automatiseren. Van content generatie tot klantopvolging, volledig op autopiloot.',
@@ -176,7 +183,7 @@ document.querySelectorAll('[data-count]').forEach(el => {
       status: 'done', energy: 95, related: [1, 3]
     },
     {
-      id: 1, icon: '🎯',
+      id: 1, icon: icons.funnel,
       title: 'Slimme Funnels',
       fullTitle: 'Slimme Funnels',
       desc: 'High-converting funnels gebouwd met de juiste tech stack. Van opt-in tot checkout, elk onderdeel geoptimaliseerd.',
@@ -184,7 +191,7 @@ document.querySelectorAll('[data-count]').forEach(el => {
       status: 'done', energy: 88, related: [0, 2]
     },
     {
-      id: 2, icon: '🤖',
+      id: 2, icon: icons.ai,
       title: 'AI Tools',
       fullTitle: 'AI Tools Implementatie',
       desc: 'Wij integreren de juiste AI tools in jouw bestaande business. Van chatbots en agents tot volledige content engines.',
@@ -192,7 +199,7 @@ document.querySelectorAll('[data-count]').forEach(el => {
       status: 'active', energy: 72, related: [1, 3]
     },
     {
-      id: 3, icon: '📣',
+      id: 3, icon: icons.ads,
       title: 'Advertenties',
       fullTitle: 'Advertentie Back-end',
       desc: 'Technisch opzetten van Meta & Google advertenties. Pixels, tracking, retargeting en koppelingen, foutloos geconfigureerd.',
@@ -220,7 +227,7 @@ document.querySelectorAll('[data-count]').forEach(el => {
 
     const dot = document.createElement('div');
     dot.className = 'orbital-node-dot';
-    dot.textContent = s.icon;
+    dot.innerHTML = s.icon;
 
     const label = document.createElement('div');
     label.className = 'orbital-node-label';

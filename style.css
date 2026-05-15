@@ -449,7 +449,7 @@ section { padding: 100px 0; }
   position: absolute;
   width: 56px; height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #a855f7, #3b82f6, #14b8a6);
+  background: linear-gradient(135deg, #ffffff, #888888);
   display: flex; align-items: center; justify-content: center;
   z-index: 10;
   animation: orbital-pulse 2s ease-in-out infinite;
@@ -598,7 +598,7 @@ section { padding: 100px 0; }
 }
 .orbital-card-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #3b82f6, #a855f7);
+  background: linear-gradient(90deg, #ffffff, #888888);
   border-radius: 99px;
 }
 
