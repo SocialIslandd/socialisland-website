@@ -535,18 +535,19 @@ section { padding: 100px 0; }
 .orbital-core {
   width: 28px; height: 28px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.85);
+  background: linear-gradient(135deg, #ffffff 0%, #a78bfa 100%);
+  box-shadow: 0 0 18px rgba(167, 139, 250, 0.6);
 }
 .orbital-ping {
   position: absolute;
   width: 72px; height: 72px;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(167, 139, 250, 0.35);
   animation: orbital-ping-anim 1.5s ease-out infinite;
 }
 .orbital-ping-2 {
   width: 88px; height: 88px;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(167, 139, 250, 0.15);
   animation-delay: 0.5s;
 }
 .orbital-ring {
