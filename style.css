@@ -247,6 +247,12 @@ body {
     inset 0 0 2px 2px rgba(24, 114, 125, 0.07); }
 }
 
+/* Shimmer sweep */
+@keyframes btn-shimmer {
+  0%   { transform: translateX(-120%) skewX(-20deg); }
+  100% { transform: translateX(220%)  skewX(-20deg); }
+}
+
 /* Liquid Glass Button */
 .btn-glass {
   display: inline-flex;
@@ -262,34 +268,57 @@ body {
   color: var(--text);
   text-decoration: none;
   cursor: pointer;
-  border: 1px solid rgba(24, 114, 125, 0.40);
-  background: linear-gradient(135deg, rgba(24,114,125,0.15), rgba(115,87,65,0.10));
-  backdrop-filter: blur(12px) url("#glass-filter");
+  border: 1px solid rgba(24, 114, 125, 0.65);
+  background: linear-gradient(135deg,
+    rgba(24,114,125,0.22) 0%,
+    rgba(115,87,65,0.14) 50%,
+    rgba(24,114,125,0.18) 100%);
+  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
   animation: btn-glow-pulse 3s ease-in-out infinite;
   overflow: hidden;
   white-space: nowrap;
 }
+
+/* Top-edge glass shine */
 .btn-glass::before {
   content: '';
   position: absolute;
-  inset: 0;
+  top: 0; left: 0; right: 0;
+  height: 45%;
   border-radius: inherit;
-  background: linear-gradient(135deg, rgba(24,114,125,0.18), transparent 60%);
-  opacity: 0;
-  transition: opacity var(--transition);
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0.13) 0%,
+    rgba(255,255,255,0.03) 70%,
+    transparent 100%);
+  pointer-events: none;
 }
+
+/* Shimmer sweep layer */
+.btn-glass::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 40%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255,255,255,0.10) 50%,
+    transparent);
+  animation: btn-shimmer 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
 .btn-glass:hover {
   transform: translateY(-2px) scale(1.02);
-  border-color: rgba(24, 114, 125, 0.70);
+  border-color: rgba(24, 114, 125, 0.90);
   animation: none;
   box-shadow:
-    0 0 24px rgba(24, 114, 125, 0.60),
-    0 0 48px rgba(115, 87, 65, 0.25),
-    inset 0 0 12px rgba(24, 114, 125, 0.15);
+    0 0 28px rgba(24, 114, 125, 0.65),
+    0 0 56px rgba(115, 87, 65, 0.28),
+    inset 0 1px 0 rgba(255,255,255,0.18),
+    inset 0 0 14px rgba(24, 114, 125, 0.18);
 }
-.btn-glass:hover::before { opacity: 1; }
 
 .btn-glass-lg {
   padding: 18px 48px;
