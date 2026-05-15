@@ -90,49 +90,49 @@ body {
   width: 650px; height: 650px;
   top: -5%; left: -5%;
   background: radial-gradient(circle, rgba(24,114,125,0.55) 0%, transparent 65%);
-  animation: blob-drift-1 28s ease-in-out infinite;
+  animation: blob-drift-1 12s ease-in-out infinite;
 }
 .blob-2 {
   width: 550px; height: 550px;
   bottom: 0%; right: -5%;
   background: radial-gradient(circle, rgba(115,87,65,0.50) 0%, transparent 65%);
-  animation: blob-drift-2 34s ease-in-out infinite;
+  animation: blob-drift-2 15s ease-in-out infinite;
 }
 .blob-3 {
   width: 400px; height: 400px;
   top: 35%; right: 10%;
   background: radial-gradient(circle, rgba(24,114,125,0.40) 0%, transparent 65%);
-  animation: blob-drift-3 22s ease-in-out infinite;
+  animation: blob-drift-3 10s ease-in-out infinite;
 }
 .blob-4 {
   width: 450px; height: 450px;
   bottom: 15%; left: 5%;
   background: radial-gradient(circle, rgba(115,87,65,0.38) 0%, transparent 65%);
-  animation: blob-drift-4 38s ease-in-out infinite;
+  animation: blob-drift-4 18s ease-in-out infinite;
 }
 
 @keyframes blob-drift-1 {
-  0%,100% { transform: translate(0px,   0px); }
-  25%      { transform: translate(80px,  60px); }
-  50%      { transform: translate(40px, 120px); }
-  75%      { transform: translate(-40px, 50px); }
+  0%,100% { transform: translate(0px,    0px); }
+  25%      { transform: translate(150px, 100px); }
+  50%      { transform: translate(80px,  200px); }
+  75%      { transform: translate(-80px, 100px); }
 }
 @keyframes blob-drift-2 {
-  0%,100% { transform: translate(0px,   0px); }
-  25%      { transform: translate(-70px, -50px); }
-  50%      { transform: translate(-30px,-110px); }
-  75%      { transform: translate(50px,  -60px); }
+  0%,100% { transform: translate(0px,    0px); }
+  25%      { transform: translate(-130px, -90px); }
+  50%      { transform: translate(-60px, -180px); }
+  75%      { transform: translate(90px,  -100px); }
 }
 @keyframes blob-drift-3 {
-  0%,100% { transform: translate(0px,  0px); }
-  33%      { transform: translate(-60px, 70px); }
-  66%      { transform: translate(50px,  40px); }
+  0%,100% { transform: translate(0px,   0px); }
+  33%      { transform: translate(-120px, 130px); }
+  66%      { transform: translate(100px,  80px); }
 }
 @keyframes blob-drift-4 {
-  0%,100% { transform: translate(0px,  0px); }
-  30%      { transform: translate(60px,-40px); }
-  60%      { transform: translate(20px, 80px); }
-  80%      { transform: translate(-50px,30px); }
+  0%,100% { transform: translate(0px,   0px); }
+  30%      { transform: translate(110px, -80px); }
+  60%      { transform: translate(40px,  150px); }
+  80%      { transform: translate(-100px, 60px); }
 }
 
 /* =============================================
