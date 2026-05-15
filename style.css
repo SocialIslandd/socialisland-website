@@ -3,9 +3,9 @@
    ============================================= */
 
 :root {
-  --bg:          #060a09;
-  --bg-dark:     #080d0c;
-  --bg-darker:   #0a1010;
+  --bg:          #0e1210;
+  --bg-dark:     #101610;
+  --bg-darker:   #121a14;
   --border:      rgba(24, 114, 125, 0.22);
   --border-sub:  rgba(24, 114, 125, 0.08);
   --surface:     rgba(24, 114, 125, 0.06);
@@ -82,57 +82,49 @@ body {
 .blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(60px);
+  filter: blur(48px);
   will-change: transform;
   pointer-events: none;
 }
+/* Teal — linksboven, groot */
 .blob-1 {
-  width: 650px; height: 650px;
-  top: -5%; left: -5%;
-  background: radial-gradient(circle, rgba(24,114,125,0.75) 0%, transparent 65%);
-  animation: blob-drift-1 7s ease-in-out infinite;
+  width: 75vw; height: 75vw;
+  max-width: 800px; max-height: 800px;
+  top: -20%; left: -15%;
+  background: radial-gradient(circle, rgba(24,114,125,0.50) 0%, transparent 60%);
+  animation: blob-drift-1 8s ease-in-out infinite;
 }
+/* Koper — rechtsonder, iets kleiner */
 .blob-2 {
-  width: 550px; height: 550px;
-  bottom: 0%; right: -5%;
-  background: radial-gradient(circle, rgba(115,87,65,0.70) 0%, transparent 65%);
-  animation: blob-drift-2 9s ease-in-out infinite;
+  width: 65vw; height: 65vw;
+  max-width: 700px; max-height: 700px;
+  bottom: -15%; right: -10%;
+  background: radial-gradient(circle, rgba(115,87,65,0.45) 0%, transparent 60%);
+  animation: blob-drift-2 11s ease-in-out infinite;
 }
+/* Klein teal accent midden */
 .blob-3 {
-  width: 400px; height: 400px;
-  top: 35%; right: 10%;
-  background: radial-gradient(circle, rgba(24,114,125,0.60) 0%, transparent 65%);
-  animation: blob-drift-3 6s ease-in-out infinite;
+  width: 30vw; height: 30vw;
+  max-width: 360px; max-height: 360px;
+  top: 45%; left: 40%;
+  background: radial-gradient(circle, rgba(24,114,125,0.25) 0%, transparent 60%);
+  animation: blob-drift-3 7s ease-in-out infinite;
 }
-.blob-4 {
-  width: 450px; height: 450px;
-  bottom: 15%; left: 5%;
-  background: radial-gradient(circle, rgba(115,87,65,0.55) 0%, transparent 65%);
-  animation: blob-drift-4 11s ease-in-out infinite;
-}
+.blob-4 { display: none; }
 
 @keyframes blob-drift-1 {
-  0%,100% { transform: translate(0px,    0px); }
-  25%      { transform: translate(150px, 100px); }
-  50%      { transform: translate(80px,  200px); }
-  75%      { transform: translate(-80px, 100px); }
+  0%,100% { transform: translate(0px,   0px); }
+  33%      { transform: translate(120px, 80px); }
+  66%      { transform: translate(60px,  160px); }
 }
 @keyframes blob-drift-2 {
   0%,100% { transform: translate(0px,    0px); }
-  25%      { transform: translate(-130px, -90px); }
-  50%      { transform: translate(-60px, -180px); }
-  75%      { transform: translate(90px,  -100px); }
+  33%      { transform: translate(-100px,-70px); }
+  66%      { transform: translate(-50px,-140px); }
 }
 @keyframes blob-drift-3 {
-  0%,100% { transform: translate(0px,   0px); }
-  33%      { transform: translate(-120px, 130px); }
-  66%      { transform: translate(100px,  80px); }
-}
-@keyframes blob-drift-4 {
-  0%,100% { transform: translate(0px,   0px); }
-  30%      { transform: translate(110px, -80px); }
-  60%      { transform: translate(40px,  150px); }
-  80%      { transform: translate(-100px, 60px); }
+  0%,100% { transform: translate(0px,  0px); }
+  50%      { transform: translate(-80px, 60px); }
 }
 
 /* =============================================
@@ -544,8 +536,8 @@ body {
    SECTIONS
    ============================================= */
 section { padding: 100px 0; }
-.section-dark { background: rgba(0,0,0,0.35); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-.section-darker { background: rgba(0,0,0,0.45); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.section-dark { background: rgba(14,18,16,0.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.section-darker { background: rgba(14,18,16,0.60); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 
 .section-header { text-align: center; max-width: 600px; margin: 0 auto 56px; }
 .section-tag {
