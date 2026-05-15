@@ -35,8 +35,10 @@
 </head>
 <body>
 
-  <!-- Liquid metal background (raw WebGL, no CDN) -->
+  <!-- Plasma lines base layer (raw WebGL) -->
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <!-- GLSL Hills overlay (raw WebGL, transparent) -->
+  <canvas id="hills-canvas" aria-hidden="true"></canvas>
 
   <!-- SVG Glass Filter for buttons -->
   <svg class="hidden-svg" aria-hidden="true">
