@@ -153,7 +153,7 @@ document.querySelectorAll('[data-count]').forEach(el => {
 
   const services = [
     {
-      id: 0, icon: icons.workflow, color: '#60a5fa',  /* blue */
+      id: 0, icon: icons.workflow,
       title: 'AI Workflows',
       fullTitle: 'AI Workflows & Automatisaties',
       desc: 'Slimme AI-systemen die je repetitieve taken automatiseren. Van content generatie tot klantopvolging, volledig op autopiloot.',
@@ -161,7 +161,7 @@ document.querySelectorAll('[data-count]').forEach(el => {
       status: 'done', energy: 95, related: [1, 3]
     },
     {
-      id: 1, icon: icons.funnel, color: '#a78bfa',  /* purple */
+      id: 1, icon: icons.funnel,
       title: 'Slimme Funnels',
       fullTitle: 'Slimme Funnels',
       desc: 'High-converting funnels gebouwd met de juiste tech stack. Van opt-in tot checkout, elk onderdeel geoptimaliseerd.',
@@ -169,7 +169,7 @@ document.querySelectorAll('[data-count]').forEach(el => {
       status: 'done', energy: 88, related: [0, 2]
     },
     {
-      id: 2, icon: icons.ai, color: '#34d399',  /* green */
+      id: 2, icon: icons.ai,
       title: 'AI Tools',
       fullTitle: 'AI Tools Implementatie',
       desc: 'Wij integreren de juiste AI tools in jouw bestaande business. Van chatbots en agents tot volledige content engines.',
@@ -177,7 +177,7 @@ document.querySelectorAll('[data-count]').forEach(el => {
       status: 'active', energy: 72, related: [1, 3]
     },
     {
-      id: 3, icon: icons.ads, color: '#fb923c',  /* orange */
+      id: 3, icon: icons.ads,
       title: 'Advertenties',
       fullTitle: 'Advertentie Back-end',
       desc: 'Technisch opzetten van Meta & Google advertenties. Pixels, tracking, retargeting en koppelingen, foutloos geconfigureerd.',
