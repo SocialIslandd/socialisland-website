@@ -160,6 +160,162 @@ document.querySelectorAll('[data-count]').forEach(el => {
 });
 
 // ══════════════════════════════════════════════
+//  ORBITAL TIMELINE
+// ══════════════════════════════════════════════
+(function initOrbital() {
+  const wrap = document.getElementById('orbital-wrap');
+  if (!wrap) return;
+
+  const services = [
+    {
+      id: 0, icon: '⚡',
+      title: 'AI Workflows',
+      fullTitle: 'AI Workflows & Automatisaties',
+      desc: 'Slimme AI-systemen die je repetitieve taken automatiseren. Van content generatie tot klantopvolging, volledig op autopiloot.',
+      tags: ['Make.com', 'n8n', 'Zapier'],
+      status: 'done', energy: 95, related: [1, 3]
+    },
+    {
+      id: 1, icon: '🎯',
+      title: 'Slimme Funnels',
+      fullTitle: 'Slimme Funnels',
+      desc: 'High-converting funnels gebouwd met de juiste tech stack. Van opt-in tot checkout, elk onderdeel geoptimaliseerd.',
+      tags: ['GoHighLevel', 'ClickFunnels', 'Systeme.io'],
+      status: 'done', energy: 88, related: [0, 2]
+    },
+    {
+      id: 2, icon: '🤖',
+      title: 'AI Tools',
+      fullTitle: 'AI Tools Implementatie',
+      desc: 'Wij integreren de juiste AI tools in jouw bestaande business. Van chatbots en agents tot volledige content engines.',
+      tags: ['Claude API', 'OpenAI', 'Voiceflow'],
+      status: 'active', energy: 72, related: [1, 3]
+    },
+    {
+      id: 3, icon: '📣',
+      title: 'Advertenties',
+      fullTitle: 'Advertentie Back-end',
+      desc: 'Technisch opzetten van Meta & Google advertenties. Pixels, tracking, retargeting en koppelingen, foutloos geconfigureerd.',
+      tags: ['Meta Ads', 'Google Ads', 'GTM'],
+      status: 'done', energy: 80, related: [0, 2]
+    },
+  ];
+
+  const RADIUS = 170;
+  let angle   = 0;
+  let autoRot = true;
+  let activeId = null;
+  let rafId;
+
+  // Build node elements
+  const nodeEls = services.map(s => {
+    const node = document.createElement('div');
+    node.className = 'orbital-node';
+    node.dataset.id = s.id;
+
+    const halo = document.createElement('div');
+    halo.className = 'orbital-node-halo';
+    const haloSize = s.energy * 0.5 + 40;
+    halo.style.cssText = `width:${haloSize}px;height:${haloSize}px;`;
+
+    const dot = document.createElement('div');
+    dot.className = 'orbital-node-dot';
+    dot.textContent = s.icon;
+
+    const label = document.createElement('div');
+    label.className = 'orbital-node-label';
+    label.textContent = s.title;
+
+    node.append(halo, dot, label);
+    wrap.appendChild(node);
+
+    node.addEventListener('click', e => {
+      e.stopPropagation();
+      if (activeId === s.id) {
+        closeAll();
+      } else {
+        openNode(s.id);
+      }
+    });
+    return node;
+  });
+
+  function openNode(id) {
+    activeId = id;
+    autoRot  = false;
+    updateClasses();
+    renderCard(id);
+  }
+
+  function closeAll() {
+    activeId = null;
+    autoRot  = true;
+    updateClasses();
+    document.querySelectorAll('.orbital-card').forEach(c => c.remove());
+  }
+
+  wrap.addEventListener('click', e => {
+    if (e.target === wrap || e.target.classList.contains('orbital-ring') || e.target.classList.contains('orbital-center') || e.target.classList.contains('orbital-core')) {
+      closeAll();
+    }
+  });
+
+  function updateClasses() {
+    const activeService = services.find(s => s.id === activeId);
+    nodeEls.forEach(el => {
+      const id = parseInt(el.dataset.id);
+      el.classList.remove('active', 'related');
+      if (id === activeId) el.classList.add('active');
+      else if (activeService && activeService.related.includes(id)) el.classList.add('related');
+    });
+  }
+
+  function renderCard(id) {
+    document.querySelectorAll('.orbital-card').forEach(c => c.remove());
+    const s = services[id];
+    const badgeClass = s.status === 'done' ? 'badge-done' : s.status === 'active' ? 'badge-active' : 'badge-soon';
+    const badgeLabel = s.status === 'done' ? 'BESCHIKBAAR' : s.status === 'active' ? 'ACTIEF' : 'BINNENKORT';
+    const card = document.createElement('div');
+    card.className = 'orbital-card';
+    card.innerHTML = `
+      <div class="orbital-card-top">
+        <span class="orbital-card-badge ${badgeClass}">${badgeLabel}</span>
+      </div>
+      <div class="orbital-card-title">${s.fullTitle}</div>
+      <div class="orbital-card-text">${s.desc}</div>
+      <div class="orbital-card-tags">${s.tags.map(t => `<span>${t}</span>`).join('')}</div>
+      <div class="orbital-card-bar-wrap">
+        <div class="orbital-card-bar-row"><span>Inzet</span><span>${s.energy}%</span></div>
+        <div class="orbital-card-bar"><div class="orbital-card-bar-fill" style="width:${s.energy}%"></div></div>
+      </div>
+    `;
+    card.addEventListener('click', e => e.stopPropagation());
+    nodeEls[id].appendChild(card);
+  }
+
+  function positionNodes() {
+    const total = services.length;
+    nodeEls.forEach((el, i) => {
+      const a = ((i / total) * 360 + angle) % 360;
+      const rad = (a * Math.PI) / 180;
+      const x = RADIUS * Math.cos(rad);
+      const y = RADIUS * Math.sin(rad);
+      const opacity = el.classList.contains('active') ? 1 : Math.max(0.4, 0.4 + 0.6 * ((1 + Math.sin(rad)) / 2));
+      el.style.transform = `translate(${x}px, ${y}px)`;
+      if (!el.classList.contains('active')) el.style.opacity = opacity;
+      else el.style.opacity = 1;
+    });
+  }
+
+  function loop() {
+    if (autoRot) angle = (angle + 0.3) % 360;
+    positionNodes();
+    rafId = requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ══════════════════════════════════════════════
 //  PROMPT BOX
 // ══════════════════════════════════════════════
 (function initPromptBox() {
