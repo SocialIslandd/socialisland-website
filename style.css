@@ -962,33 +962,61 @@ blockquote {
 /* =============================================
    VOOR WIE
    ============================================= */
-.checklist-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; border: 1px solid var(--border); }
-.check-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  background: rgba(0,0,0,0.35);
-  border: 1px solid var(--border);
-  margin: -1px;
-  padding: 24px;
-  transition: background var(--transition);
+/* Feature cards (features-10 stijl) */
+.feat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
-.check-card:hover { background: rgba(255,255,255,0.03); }
-.check-icon {
-  width: 26px; height: 26px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.15);
-  color: var(--text);
-  font-size: 12px;
-  font-weight: 700;
+.feat-card {
+  position: relative;
+  background: rgba(14,18,16,0.55);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 28px 24px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background var(--transition), border-color var(--transition);
+}
+.feat-card:hover {
+  background: rgba(24,114,125,0.08);
+  border-color: rgba(24,114,125,0.40);
+}
+
+/* Corner bracket decorators */
+.fc {
+  position: absolute;
+  width: 10px; height: 10px;
+}
+.fc.tl { top: -1px;  left: -1px;  border-top: 2px solid #18727d; border-left: 2px solid #18727d; }
+.fc.tr { top: -1px;  right: -1px; border-top: 2px solid #18727d; border-right: 2px solid #18727d; }
+.fc.bl { bottom: -1px; left: -1px;  border-bottom: 2px solid #735741; border-left: 2px solid #735741; }
+.fc.br { bottom: -1px; right: -1px; border-bottom: 2px solid #735741; border-right: 2px solid #735741; }
+
+.feat-icon {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  background: rgba(24,114,125,0.12);
+  border: 1px solid rgba(24,114,125,0.25);
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  margin-top: 1px;
+  color: #18727d;
+  margin-bottom: 18px;
 }
-.check-card p { color: var(--text-muted); font-size: 14px; line-height: 1.65; }
-.check-card p strong { color: var(--text); font-weight: 600; }
+.feat-card h3 {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+.feat-card p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
 
 /* =============================================
    CTA
@@ -1221,7 +1249,7 @@ footer {
   .about-grid { grid-template-columns: 1fr; gap: 48px; }
   .about-image { max-width: 380px; margin: 0 auto; }
   .orbital-ring { width: 300px; height: 300px; }
-  .checklist-grid { grid-template-columns: 1fr; }
+  .feat-grid { grid-template-columns: 1fr; }
   .metrics-grid { gap: 28px; }
   .metric-line { height: 40px; }
 }
