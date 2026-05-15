@@ -21,7 +21,7 @@
   const gradientStops  = [35, 50, 60, 70, 80, 90, 100];
   const startingGap    = 105;
   const breathingRange = 5;
-  const animationSpeed = 0.02;
+  const animationSpeed = 0.08;
   const Breathing      = true;
 
   let width     = startingGap;
