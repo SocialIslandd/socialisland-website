@@ -160,6 +160,98 @@ document.querySelectorAll('[data-count]').forEach(el => {
 });
 
 // ══════════════════════════════════════════════
+//  PROMPT BOX
+// ══════════════════════════════════════════════
+(function initPromptBox() {
+  const form        = document.getElementById('prompt-form');
+  const textarea    = document.getElementById('prompt-textarea');
+  const sendBtn     = document.getElementById('prompt-send-btn');
+  const fileInput   = document.getElementById('prompt-file');
+  const attachBtn   = document.getElementById('prompt-attach-btn');
+  const imgPreview  = document.getElementById('prompt-img-preview');
+  const imgThumb    = document.getElementById('prompt-img-thumb');
+  const imgRemove   = document.getElementById('prompt-img-remove');
+  const toolsBtn    = document.getElementById('prompt-tools-btn');
+  const toolsLabel  = document.getElementById('prompt-tools-label');
+  const popover     = document.getElementById('prompt-popover');
+  const activeTool  = document.getElementById('prompt-active-tool');
+  const activeBtn   = document.getElementById('prompt-active-tool-btn');
+  const activeLabel = document.getElementById('prompt-active-tool-label');
+  const success     = document.getElementById('prompt-success');
+  if (!form) return;
+
+  let hasImage = false;
+
+  // Auto-resize textarea
+  function resizeTextarea() {
+    textarea.style.height = 'auto';
+    textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px';
+    updateSend();
+  }
+  textarea.addEventListener('input', resizeTextarea);
+
+  function updateSend() {
+    const hasVal = textarea.value.trim().length > 0 || hasImage;
+    sendBtn.disabled = !hasVal;
+  }
+
+  // Attach image
+  attachBtn.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      imgThumb.src = reader.result;
+      imgPreview.style.display = 'block';
+      hasImage = true;
+      updateSend();
+    };
+    reader.readAsDataURL(file);
+    fileInput.value = '';
+  });
+
+  imgRemove.addEventListener('click', () => {
+    imgPreview.style.display = 'none';
+    imgThumb.src = '';
+    hasImage = false;
+    updateSend();
+  });
+
+  // Tools popover
+  toolsBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    const open = popover.style.display === 'block';
+    popover.style.display = open ? 'none' : 'block';
+  });
+  document.addEventListener('click', () => { popover.style.display = 'none'; });
+  popover.addEventListener('click', e => e.stopPropagation());
+
+  document.querySelectorAll('.prompt-tool-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const short = item.dataset.short;
+      activeLabel.textContent = short;
+      activeTool.style.display = 'flex';
+      toolsLabel.style.display = 'none';
+      popover.style.display = 'none';
+    });
+  });
+
+  activeBtn.addEventListener('click', () => {
+    activeTool.style.display = 'none';
+    toolsLabel.style.display = 'inline';
+  });
+
+  // Submit
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    if (sendBtn.disabled) return;
+    form.style.display = 'none';
+    success.style.display = 'block';
+  });
+})();
+
+// ══════════════════════════════════════════════
 //  SMOOTH SCROLL
 // ══════════════════════════════════════════════
 document.querySelectorAll('a[href^="#"]').forEach(a => {

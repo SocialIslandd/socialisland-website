@@ -395,6 +395,101 @@
     </div>
   </section>
 
+  <!-- PROMPT BOX -->
+  <section id="vraag" class="section-dark">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-label">Directe vraag</p>
+        <h2>Stel ons een <span class="grad-text">vraag</span></h2>
+        <p class="section-sub">Stuur ons een bericht en we reageren binnen 24 uur.</p>
+      </div>
+
+      <form class="prompt-form reveal" id="prompt-form">
+        <div class="prompt-box" id="prompt-box">
+
+          <!-- Image preview -->
+          <div class="prompt-img-preview" id="prompt-img-preview" style="display:none;">
+            <button type="button" class="prompt-img-remove" id="prompt-img-remove" aria-label="Verwijder afbeelding">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <img id="prompt-img-thumb" alt="Bijlage preview" />
+          </div>
+
+          <!-- Textarea -->
+          <textarea
+            id="prompt-textarea"
+            name="message"
+            placeholder="Stel ons een vraag..."
+            rows="1"
+            class="prompt-textarea"
+          ></textarea>
+
+          <!-- Toolbar -->
+          <div class="prompt-toolbar">
+            <div class="prompt-toolbar-left">
+              <!-- Attach -->
+              <input type="file" id="prompt-file" accept="image/*" style="display:none;" />
+              <button type="button" class="prompt-icon-btn" id="prompt-attach-btn" title="Afbeelding bijvoegen">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5V19"/><path d="M5 12H19"/></svg>
+              </button>
+
+              <!-- Tools popover -->
+              <div class="prompt-popover-wrap" id="prompt-tools-wrap">
+                <button type="button" class="prompt-tools-btn" id="prompt-tools-btn" title="Tools">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>
+                  <span id="prompt-tools-label">Tools</span>
+                </button>
+                <div class="prompt-popover" id="prompt-popover" style="display:none;">
+                  <button type="button" class="prompt-tool-item" data-tool="image" data-short="Afbeelding">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                    Maak een afbeelding
+                  </button>
+                  <button type="button" class="prompt-tool-item" data-tool="search" data-short="Zoeken">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    Zoek op het web
+                  </button>
+                  <button type="button" class="prompt-tool-item" data-tool="write" data-short="Schrijven">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                    Schrijf of codeer
+                  </button>
+                  <button type="button" class="prompt-tool-item" data-tool="research" data-short="Onderzoek">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    Diepgaand onderzoek
+                  </button>
+                </div>
+              </div>
+
+              <!-- Active tool chip -->
+              <div class="prompt-active-tool" id="prompt-active-tool" style="display:none;">
+                <div class="prompt-divider"></div>
+                <button type="button" id="prompt-active-tool-btn" class="prompt-chip">
+                  <span id="prompt-active-tool-label"></span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="prompt-toolbar-right">
+              <!-- Mic -->
+              <button type="button" class="prompt-icon-btn" title="Spraakbericht">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+              </button>
+              <!-- Send -->
+              <button type="submit" class="prompt-send-btn" id="prompt-send-btn" disabled title="Verstuur">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.25L12 18.75"/><path d="M18.75 12L12 5.25L5.25 12"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Success message -->
+        <p class="prompt-success" id="prompt-success" style="display:none;">
+          ✓ Bericht ontvangen — we reageren binnen 24 uur!
+        </p>
+      </form>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer>
     <div class="container">
