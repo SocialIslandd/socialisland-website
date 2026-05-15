@@ -82,32 +82,32 @@ body {
 .blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(90px);
+  filter: blur(60px);
   will-change: transform;
   pointer-events: none;
 }
 .blob-1 {
-  width: 600px; height: 600px;
-  top: -10%; left: -10%;
-  background: radial-gradient(circle, rgba(24,114,125,0.22) 0%, transparent 70%);
+  width: 650px; height: 650px;
+  top: -5%; left: -5%;
+  background: radial-gradient(circle, rgba(24,114,125,0.55) 0%, transparent 65%);
   animation: blob-drift-1 28s ease-in-out infinite;
 }
 .blob-2 {
-  width: 500px; height: 500px;
-  bottom: -5%; right: -5%;
-  background: radial-gradient(circle, rgba(115,87,65,0.20) 0%, transparent 70%);
+  width: 550px; height: 550px;
+  bottom: 0%; right: -5%;
+  background: radial-gradient(circle, rgba(115,87,65,0.50) 0%, transparent 65%);
   animation: blob-drift-2 34s ease-in-out infinite;
 }
 .blob-3 {
-  width: 350px; height: 350px;
-  top: 40%; right: 15%;
-  background: radial-gradient(circle, rgba(24,114,125,0.14) 0%, transparent 70%);
+  width: 400px; height: 400px;
+  top: 35%; right: 10%;
+  background: radial-gradient(circle, rgba(24,114,125,0.40) 0%, transparent 65%);
   animation: blob-drift-3 22s ease-in-out infinite;
 }
 .blob-4 {
-  width: 420px; height: 420px;
-  bottom: 20%; left: 10%;
-  background: radial-gradient(circle, rgba(115,87,65,0.13) 0%, transparent 70%);
+  width: 450px; height: 450px;
+  bottom: 15%; left: 5%;
+  background: radial-gradient(circle, rgba(115,87,65,0.38) 0%, transparent 65%);
   animation: blob-drift-4 38s ease-in-out infinite;
 }
 
