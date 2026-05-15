@@ -175,7 +175,7 @@ document.querySelectorAll('[data-count]').forEach(el => {
 
   const services = [
     {
-      id: 0, icon: icons.workflow,
+      id: 0, icon: icons.workflow, color: '#60a5fa',  /* blue */
       title: 'AI Workflows',
       fullTitle: 'AI Workflows & Automatisaties',
       desc: 'Slimme AI-systemen die je repetitieve taken automatiseren. Van content generatie tot klantopvolging, volledig op autopiloot.',
@@ -183,7 +183,7 @@ document.querySelectorAll('[data-count]').forEach(el => {
       status: 'done', energy: 95, related: [1, 3]
     },
     {
-      id: 1, icon: icons.funnel,
+      id: 1, icon: icons.funnel, color: '#a78bfa',  /* purple */
       title: 'Slimme Funnels',
       fullTitle: 'Slimme Funnels',
       desc: 'High-converting funnels gebouwd met de juiste tech stack. Van opt-in tot checkout, elk onderdeel geoptimaliseerd.',
@@ -191,7 +191,7 @@ document.querySelectorAll('[data-count]').forEach(el => {
       status: 'done', energy: 88, related: [0, 2]
     },
     {
-      id: 2, icon: icons.ai,
+      id: 2, icon: icons.ai, color: '#34d399',  /* green */
       title: 'AI Tools',
       fullTitle: 'AI Tools Implementatie',
       desc: 'Wij integreren de juiste AI tools in jouw bestaande business. Van chatbots en agents tot volledige content engines.',
@@ -199,7 +199,7 @@ document.querySelectorAll('[data-count]').forEach(el => {
       status: 'active', energy: 72, related: [1, 3]
     },
     {
-      id: 3, icon: icons.ads,
+      id: 3, icon: icons.ads, color: '#fb923c',  /* orange */
       title: 'Advertenties',
       fullTitle: 'Advertentie Back-end',
       desc: 'Technisch opzetten van Meta & Google advertenties. Pixels, tracking, retargeting en koppelingen, foutloos geconfigureerd.',
@@ -291,10 +291,6 @@ document.querySelectorAll('[data-count]').forEach(el => {
       <div class="orbital-card-title">${s.fullTitle}</div>
       <div class="orbital-card-text">${s.desc}</div>
       <div class="orbital-card-tags">${s.tags.map(t => `<span>${t}</span>`).join('')}</div>
-      <div class="orbital-card-bar-wrap">
-        <div class="orbital-card-bar-row"><span>Inzet</span><span>${s.energy}%</span></div>
-        <div class="orbital-card-bar"><div class="orbital-card-bar-fill" style="width:${s.energy}%"></div></div>
-      </div>
     `;
     card.addEventListener('click', e => e.stopPropagation());
     nodeEls[id].appendChild(card);
