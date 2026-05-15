@@ -102,12 +102,12 @@ body {
   background: radial-gradient(circle, rgba(115,87,65,0.45) 0%, transparent 60%);
   animation: blob-drift-2 11s ease-in-out infinite;
 }
-/* Klein teal accent midden */
+/* Beige accent — brand color #f2dcce */
 .blob-3 {
-  width: 30vw; height: 30vw;
-  max-width: 360px; max-height: 360px;
-  top: 45%; left: 40%;
-  background: radial-gradient(circle, rgba(24,114,125,0.25) 0%, transparent 60%);
+  width: 40vw; height: 40vw;
+  max-width: 480px; max-height: 480px;
+  top: 30%; left: 35%;
+  background: radial-gradient(circle, rgba(242,220,206,0.18) 0%, transparent 60%);
   animation: blob-drift-3 7s ease-in-out infinite;
 }
 .blob-4 { display: none; }

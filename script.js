@@ -13,9 +13,9 @@
     '#0e1210',   // warm dark base
     '#1a3a3e',   // dark teal
     '#2a6268',   // zichtbaar teal centrum
-    '#1a3028',   // teal-donker
-    '#3a2010',   // warm koper zichtbaar
-    '#1a1008',   // donker warm rand
+    '#2e2416',   // donker beige/warm overgang
+    '#3d2e1a',   // donker beige — brand color #f2dcce verdonkerd
+    '#1a1208',   // donker rand
     '#0e1210'    // warm dark base
   ];
   const gradientStops  = [35, 50, 60, 70, 80, 90, 100];
