@@ -1,5 +1,113 @@
 
 // ══════════════════════════════════════════════
+//  LIQUID METAL BACKGROUND (raw WebGL, no CDN)
+// ══════════════════════════════════════════════
+(function initLiquidMetal() {
+  const canvas = document.getElementById('bg-canvas');
+  if (!canvas) return;
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) {
+    // Fallback: plain black
+    canvas.style.background = '#000';
+    return;
+  }
+
+  const vs = `
+    attribute vec2 a_pos;
+    void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
+  `;
+
+  const fs = `
+    precision mediump float;
+    uniform vec2  u_res;
+    uniform float u_time;
+
+    float hash(vec2 p) {
+      p = fract(p * vec2(127.1, 311.7));
+      p += dot(p, p + 19.19);
+      return fract(p.x * p.y);
+    }
+    float noise(vec2 p) {
+      vec2 i = floor(p), f = fract(p);
+      f = f*f*(3.0-2.0*f);
+      return mix(
+        mix(hash(i), hash(i+vec2(1,0)), f.x),
+        mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y);
+    }
+    float fbm(vec2 p) {
+      float v = 0.0, a = 0.5;
+      for (int i = 0; i < 5; i++) {
+        v += a * noise(p);
+        p = p * 2.1 + vec2(1.7, 9.2);
+        a *= 0.5;
+      }
+      return v;
+    }
+
+    void main() {
+      vec2 uv = gl_FragCoord.xy / u_res;
+      float t  = u_time * 0.18;
+
+      vec2 q = vec2(fbm(uv + t * 0.3), fbm(uv + vec2(5.2, 1.3) + t * 0.25));
+      vec2 r = vec2(fbm(uv + 4.0*q + vec2(1.7,9.2) + t*0.15),
+                    fbm(uv + 4.0*q + vec2(8.3,2.8) + t*0.12));
+      float f = fbm(uv + 4.0*r);
+
+      // Chrome/silver palette
+      vec3 dark  = vec3(0.01, 0.01, 0.02);
+      vec3 mid   = vec3(0.10, 0.12, 0.16);
+      vec3 light = vec3(0.70, 0.76, 0.85);
+      vec3 col   = mix(dark, mid,   clamp(f*2.0,      0.0, 1.0));
+      col        = mix(col,  light, clamp(f*f*4.0-1.5, 0.0, 1.0));
+
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+
+  function compile(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+
+  const prog = gl.createProgram();
+  gl.attachShader(prog, compile(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+
+  const pos = gl.getAttribLocation(prog, 'a_pos');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+
+  const uRes  = gl.getUniformLocation(prog, 'u_res');
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.uniform2f(uRes, canvas.width, canvas.height);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  let t = 0;
+  function loop() {
+    t += 0.016;
+    gl.uniform1f(uTime, t);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ══════════════════════════════════════════════
 //  PHOTO — load dynamically
 // ══════════════════════════════════════════════
 const photoWrap = document.getElementById('photo-wrap');

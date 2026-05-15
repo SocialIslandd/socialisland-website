@@ -35,14 +35,8 @@
 </head>
 <body>
 
-  <!-- Mesh gradient background (pure CSS, no CDN) -->
-  <div class="bg-mesh" aria-hidden="true">
-    <div class="bg-blob bg-blob-1"></div>
-    <div class="bg-blob bg-blob-2"></div>
-    <div class="bg-blob bg-blob-3"></div>
-    <div class="bg-blob bg-blob-4"></div>
-    <div class="bg-blob bg-blob-5"></div>
-  </div>
+  <!-- Liquid metal background (raw WebGL, no CDN) -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
   <!-- SVG Glass Filter for buttons -->
   <svg class="hidden-svg" aria-hidden="true">
@@ -92,9 +86,8 @@
       </div>
 
       <h1 class="hero-title hero-anim-2">
-        <span class="hero-line-light">Jouw business op</span>
-        <span class="hero-line-bold">automatische</span>
-        <span class="hero-line-italic grad-text">piloot.</span>
+        Jouw business op<br>
+        <span class="grad-text">automatische piloot</span>
       </h1>
 
       <p class="hero-sub hero-anim-3">
@@ -103,28 +96,20 @@
       </p>
 
       <div class="hero-ctas hero-anim-4">
-        <a href="#diensten" class="btn-ghost">Bekijk diensten →</a>
         <a href="https://calendly.com/socialisland" target="_blank" class="btn-glass">
-          Gratis strategiecall
+          Boek een gratis strategiecall
         </a>
+        <a href="#diensten" class="btn-ghost">Bekijk diensten →</a>
       </div>
 
-    </div>
+      <div class="hero-features hero-anim-4">
+        <div class="hero-feature">AI Workflows</div>
+        <div class="hero-feature-sep"></div>
+        <div class="hero-feature">Slimme Funnels</div>
+        <div class="hero-feature-sep"></div>
+        <div class="hero-feature">Advertentie Back-end</div>
+      </div>
 
-    <!-- Pulsing orb bottom-right -->
-    <div class="hero-orb">
-      <div class="hero-orb-ring"></div>
-      <div class="hero-orb-core"></div>
-      <svg class="hero-orb-text" viewBox="0 0 100 100" aria-hidden="true">
-        <defs>
-          <path id="orb-text-path" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/>
-        </defs>
-        <text>
-          <textPath href="#orb-text-path" startOffset="0%">
-            Social Island • AI &amp; Automatisaties • Social Island • AI &amp; Automatisaties •
-          </textPath>
-        </text>
-      </svg>
     </div>
   </section>
 

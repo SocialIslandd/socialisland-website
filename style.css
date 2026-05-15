@@ -63,47 +63,14 @@ body {
 /* =============================================
    SHADER BACKGROUND
    ============================================= */
-/* ── Mesh gradient background (no CDN, no WebGL) ── */
-.bg-mesh {
+/* ── Liquid metal canvas background ── */
+#bg-canvas {
   position: fixed;
   inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: -2;
-  background: #000;
-  overflow: hidden;
-}
-.bg-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  opacity: 0.18;
-  background: #ffffff;
-  will-change: transform;
-}
-.bg-blob-1 { width: 55vw; height: 55vw; animation: blob1 18s ease-in-out infinite alternate; }
-.bg-blob-2 { width: 40vw; height: 40vw; animation: blob2 22s ease-in-out infinite alternate; }
-.bg-blob-3 { width: 35vw; height: 35vw; animation: blob3 16s ease-in-out infinite alternate; opacity: 0.12; }
-.bg-blob-4 { width: 30vw; height: 30vw; animation: blob4 20s ease-in-out infinite alternate; opacity: 0.10; }
-.bg-blob-5 { width: 45vw; height: 45vw; animation: blob5 24s ease-in-out infinite alternate; opacity: 0.08; }
-
-@keyframes blob1 {
-  from { transform: translate(5vw,  20vh); }
-  to   { transform: translate(15vw, 60vh); }
-}
-@keyframes blob2 {
-  from { transform: translate(60vw, 10vh); }
-  to   { transform: translate(50vw, 55vh); }
-}
-@keyframes blob3 {
-  from { transform: translate(40vw, 60vh); }
-  to   { transform: translate(20vw, 10vh); }
-}
-@keyframes blob4 {
-  from { transform: translate(70vw, 50vh); }
-  to   { transform: translate(80vw, 20vh); }
-}
-@keyframes blob5 {
-  from { transform: translate(25vw, 70vh); }
-  to   { transform: translate(55vw, 80vh); }
+  display: block;
 }
 
 /* =============================================
@@ -275,21 +242,22 @@ body {
    HERO
    ============================================= */
 #hero {
-  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 24px 80px;
   position: relative;
-  overflow: hidden;
 }
 
 .hero-wrap {
-  position: absolute;
-  bottom: 60px;
-  left: 48px;
-  max-width: 640px;
-  text-align: left;
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
+  align-items: center;
+  gap: 28px;
 }
 
 /* Availability badge */
@@ -401,40 +369,24 @@ body {
 /* Hero title */
 .hero-title {
   font-family: var(--font-head);
-  font-size: clamp(44px, 7vw, 88px);
-  line-height: 1.0;
-  letter-spacing: -3px;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-.hero-line-light {
-  font-weight: 300;
-  color: rgba(255,255,255,0.75);
-  font-size: 0.6em;
-  letter-spacing: -1px;
-  margin-bottom: 4px;
-}
-.hero-line-bold {
+  font-size: clamp(40px, 7vw, 82px);
   font-weight: 900;
-  color: #ffffff;
-}
-.hero-line-italic {
-  font-weight: 300;
-  font-style: italic;
-  color: rgba(255,255,255,0.8);
+  line-height: 1.05;
+  letter-spacing: -2.5px;
+  color: var(--text);
 }
 
 .hero-sub {
-  font-size: clamp(14px, 1.6vw, 16px);
+  font-size: clamp(15px, 1.8vw, 18px);
   color: var(--text-muted);
   line-height: 1.75;
-  max-width: 480px;
+  max-width: 540px;
 }
 
 .hero-ctas {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
 }
