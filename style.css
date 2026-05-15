@@ -90,25 +90,25 @@ body {
   width: 650px; height: 650px;
   top: -5%; left: -5%;
   background: radial-gradient(circle, rgba(24,114,125,0.55) 0%, transparent 65%);
-  animation: blob-drift-1 12s ease-in-out infinite;
+  animation: blob-drift-1 7s ease-in-out infinite;
 }
 .blob-2 {
   width: 550px; height: 550px;
   bottom: 0%; right: -5%;
   background: radial-gradient(circle, rgba(115,87,65,0.50) 0%, transparent 65%);
-  animation: blob-drift-2 15s ease-in-out infinite;
+  animation: blob-drift-2 9s ease-in-out infinite;
 }
 .blob-3 {
   width: 400px; height: 400px;
   top: 35%; right: 10%;
   background: radial-gradient(circle, rgba(24,114,125,0.40) 0%, transparent 65%);
-  animation: blob-drift-3 10s ease-in-out infinite;
+  animation: blob-drift-3 6s ease-in-out infinite;
 }
 .blob-4 {
   width: 450px; height: 450px;
   bottom: 15%; left: 5%;
   background: radial-gradient(circle, rgba(115,87,65,0.38) 0%, transparent 65%);
-  animation: blob-drift-4 18s ease-in-out infinite;
+  animation: blob-drift-4 11s ease-in-out infinite;
 }
 
 @keyframes blob-drift-1 {
