@@ -8,15 +8,15 @@
   const el = document.getElementById('bg-gradient');
   if (!el) return;
 
-  // Site-matched purple/dark color scheme
+  // Brand colors: copper #735741 · cream #f2dcce · teal #18727d
   const gradientColors = [
-    '#050510',   // near-black
-    '#0d0b2e',   // dark indigo
-    '#1a0f52',   // deep indigo
-    '#2d1580',   // purple
-    '#3d1a99',   // bright purple
-    '#1a0a47',   // dark purple
-    '#050510'    // near-black
+    '#060a09',   // near-black warm
+    '#091a1c',   // very dark teal
+    '#0f2e31',   // dark teal
+    '#183f42',   // medium teal
+    '#1f1a0e',   // dark warm brown
+    '#0e0c08',   // very dark brown-black
+    '#060a09'    // near-black
   ];
   const gradientStops  = [35, 50, 60, 70, 80, 90, 100];
   const startingGap    = 125;
