@@ -69,12 +69,70 @@ body {
   position: fixed;
   inset: 0;
   z-index: -2;
+  overflow: hidden;
   opacity: 0;
   transform: scale(1.5);
   animation: bg-entrance 2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
 }
 @keyframes bg-entrance {
   to { opacity: 1; transform: scale(1); }
+}
+
+/* ── Drijvende blobs ── */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  will-change: transform;
+  pointer-events: none;
+}
+.blob-1 {
+  width: 600px; height: 600px;
+  top: -10%; left: -10%;
+  background: radial-gradient(circle, rgba(24,114,125,0.22) 0%, transparent 70%);
+  animation: blob-drift-1 28s ease-in-out infinite;
+}
+.blob-2 {
+  width: 500px; height: 500px;
+  bottom: -5%; right: -5%;
+  background: radial-gradient(circle, rgba(115,87,65,0.20) 0%, transparent 70%);
+  animation: blob-drift-2 34s ease-in-out infinite;
+}
+.blob-3 {
+  width: 350px; height: 350px;
+  top: 40%; right: 15%;
+  background: radial-gradient(circle, rgba(24,114,125,0.14) 0%, transparent 70%);
+  animation: blob-drift-3 22s ease-in-out infinite;
+}
+.blob-4 {
+  width: 420px; height: 420px;
+  bottom: 20%; left: 10%;
+  background: radial-gradient(circle, rgba(115,87,65,0.13) 0%, transparent 70%);
+  animation: blob-drift-4 38s ease-in-out infinite;
+}
+
+@keyframes blob-drift-1 {
+  0%,100% { transform: translate(0px,   0px); }
+  25%      { transform: translate(80px,  60px); }
+  50%      { transform: translate(40px, 120px); }
+  75%      { transform: translate(-40px, 50px); }
+}
+@keyframes blob-drift-2 {
+  0%,100% { transform: translate(0px,   0px); }
+  25%      { transform: translate(-70px, -50px); }
+  50%      { transform: translate(-30px,-110px); }
+  75%      { transform: translate(50px,  -60px); }
+}
+@keyframes blob-drift-3 {
+  0%,100% { transform: translate(0px,  0px); }
+  33%      { transform: translate(-60px, 70px); }
+  66%      { transform: translate(50px,  40px); }
+}
+@keyframes blob-drift-4 {
+  0%,100% { transform: translate(0px,  0px); }
+  30%      { transform: translate(60px,-40px); }
+  60%      { transform: translate(20px, 80px); }
+  80%      { transform: translate(-50px,30px); }
 }
 
 /* =============================================
