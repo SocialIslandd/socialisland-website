@@ -171,6 +171,28 @@ body {
    BUTTONS
    ============================================= */
 
+/* ── Button glow pulse animation ── */
+@keyframes btn-glow-pulse {
+  0%, 100% { box-shadow:
+    0 0 8px  rgba(102, 51, 204, 0.35),
+    0 0 20px rgba(80,  30, 180, 0.20),
+    inset 3px 3px 0.5px -3.5px rgba(255,255,255,0.09),
+    inset -3px -3px 0.5px -3.5px rgba(255,255,255,0.85),
+    inset 1px 1px 1px -0.5px rgba(255,255,255,0.6),
+    inset -1px -1px 1px -0.5px rgba(255,255,255,0.6),
+    inset 0 0 6px 6px rgba(255,255,255,0.10),
+    inset 0 0 2px 2px rgba(255,255,255,0.05); }
+  50%  { box-shadow:
+    0 0 16px rgba(130, 60, 240, 0.55),
+    0 0 36px rgba(100, 40, 210, 0.30),
+    inset 3px 3px 0.5px -3.5px rgba(255,255,255,0.09),
+    inset -3px -3px 0.5px -3.5px rgba(255,255,255,0.85),
+    inset 1px 1px 1px -0.5px rgba(255,255,255,0.6),
+    inset -1px -1px 1px -0.5px rgba(255,255,255,0.6),
+    inset 0 0 6px 6px rgba(160, 80, 255, 0.15),
+    inset 0 0 2px 2px rgba(160, 80, 255, 0.08); }
+}
+
 /* Liquid Glass Button */
 .btn-glass {
   display: inline-flex;
@@ -186,21 +208,12 @@ body {
   color: var(--text);
   text-decoration: none;
   cursor: pointer;
-  border: 1px solid rgba(255,255,255,0.2);
-  background: transparent;
+  border: 1px solid rgba(140, 80, 255, 0.35);
+  background: linear-gradient(135deg, rgba(80,30,160,0.18), rgba(40,10,100,0.12));
   backdrop-filter: blur(12px) url("#glass-filter");
   -webkit-backdrop-filter: blur(12px);
-  transition: transform var(--transition), border-color var(--transition);
-  box-shadow:
-    0 0 6px rgba(0,0,0,0.03),
-    0 2px 6px rgba(0,0,0,0.08),
-    inset 3px 3px 0.5px -3.5px rgba(255,255,255,0.09),
-    inset -3px -3px 0.5px -3.5px rgba(255,255,255,0.85),
-    inset 1px 1px 1px -0.5px rgba(255,255,255,0.6),
-    inset -1px -1px 1px -0.5px rgba(255,255,255,0.6),
-    inset 0 0 6px 6px rgba(255,255,255,0.12),
-    inset 0 0 2px 2px rgba(255,255,255,0.06),
-    0 0 12px rgba(0,0,0,0.15);
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  animation: btn-glow-pulse 3s ease-in-out infinite;
   overflow: hidden;
   white-space: nowrap;
 }
@@ -209,13 +222,18 @@ body {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent 60%);
+  background: linear-gradient(135deg, rgba(160,80,255,0.18), transparent 60%);
   opacity: 0;
   transition: opacity var(--transition);
 }
 .btn-glass:hover {
   transform: translateY(-2px) scale(1.02);
-  border-color: rgba(255,255,255,0.35);
+  border-color: rgba(180, 100, 255, 0.65);
+  animation: none;
+  box-shadow:
+    0 0 24px rgba(140, 60, 255, 0.70),
+    0 0 48px rgba(100, 40, 210, 0.35),
+    inset 0 0 12px rgba(160, 80, 255, 0.20);
 }
 .btn-glass:hover::before { opacity: 1; }
 
@@ -229,14 +247,17 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--text-muted);
+  color: rgba(200, 170, 255, 0.80);
   text-decoration: none;
   font-size: 15px;
   font-weight: 500;
-  transition: color var(--transition);
+  transition: color var(--transition), text-shadow var(--transition);
   white-space: nowrap;
 }
-.btn-ghost:hover { color: var(--text); }
+.btn-ghost:hover {
+  color: #fff;
+  text-shadow: 0 0 12px rgba(160, 80, 255, 0.70);
+}
 
 /* =============================================
    HERO
