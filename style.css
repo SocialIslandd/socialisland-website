@@ -11,7 +11,7 @@
   --surface:     rgba(115, 87, 65, 0.08);
   --surface-hover: rgba(115, 87, 65, 0.14);
   --text:        #f2dcce;
-  --text-muted:  #18727d;
+  --text-muted:  rgba(255, 255, 255, 0.60);
   --text-dim:    rgba(242, 220, 206, 0.28);
   --grad-text:   linear-gradient(135deg, #f2dcce, #735741 40%, #18727d, #1a9aaa);
   --font-head:   'Outfit', sans-serif;
@@ -250,7 +250,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: rgba(24, 114, 125, 0.90);
+  color: rgba(255, 255, 255, 0.60);
   text-decoration: none;
   font-size: 15px;
   font-weight: 500;
@@ -259,7 +259,7 @@ body {
 }
 .btn-ghost:hover {
   color: #fff;
-  text-shadow: 0 0 12px rgba(24, 114, 125, 0.60);
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.40);
 }
 
 /* =============================================
