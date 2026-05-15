@@ -11,11 +11,11 @@
   // Brand colors: copper #735741 · cream #f2dcce · teal #18727d
   const gradientColors = [
     '#0e1210',   // warm dark base
-    '#162828',   // dark teal
-    '#1e3a3c',   // zichtbaar teal centrum
-    '#162820',   // teal-donker
-    '#1e1408',   // warm koper-donker
-    '#120d07',   // donker warm rand
+    '#1a3a3e',   // dark teal
+    '#2a6268',   // zichtbaar teal centrum
+    '#1a3028',   // teal-donker
+    '#3a2010',   // warm koper zichtbaar
+    '#1a1008',   // donker warm rand
     '#0e1210'    // warm dark base
   ];
   const gradientStops  = [35, 50, 60, 70, 80, 90, 100];
