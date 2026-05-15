@@ -407,8 +407,8 @@ body {
    SECTIONS
    ============================================= */
 section { padding: 100px 0; }
-.section-dark { background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-.section-darker { background: rgba(0,0,0,0.82); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.section-dark { background: rgba(0,0,0,0.35); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.section-darker { background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
 
 .section-header { text-align: center; max-width: 600px; margin: 0 auto 56px; }
 .section-tag {
@@ -622,7 +622,7 @@ section { padding: 100px 0; }
   padding: 60px 0;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.35);
 }
 .metrics-grid {
   display: flex;
@@ -773,7 +773,7 @@ section { padding: 100px 0; }
   border: 1px solid var(--border);
   padding: 52px 60px;
   text-align: center;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.35);
   position: relative;
   transition: border-color var(--transition);
 }
@@ -835,7 +835,7 @@ blockquote {
   display: flex;
   align-items: flex-start;
   gap: 14px;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.35);
   border: 1px solid var(--border);
   margin: -1px;
   padding: 24px;
@@ -893,7 +893,7 @@ footer {
   border-top: 1px solid var(--border);
   padding: 48px 0;
   text-align: center;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.4);
 }
 .footer-inner { display: flex; flex-direction: column; align-items: center; gap: 14px; }
 .footer-logo { font-family: var(--font-head); font-size: 20px; font-weight: 700; }
