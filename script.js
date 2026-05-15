@@ -34,15 +34,23 @@ import { animate, inView } from 'https://cdn.jsdelivr.net/npm/motion@11/+esm';
 
       float d = length(p) * distortion;
 
-      float rx = p.x * (1.0 + d);
-      float gx = p.x;
-      float bx = p.x * (1.0 - d);
+      // Brand: gold offset, teal offset, white centre
+      float goldX = p.x * (1.0 + d);
+      float midX  = p.x;
+      float tealX = p.x * (1.0 - d);
 
-      float r = 0.08 / abs(p.y + sin((rx + time) * xScale) * yScale);
-      float g = 0.08 / abs(p.y + sin((gx + time) * xScale) * yScale);
-      float b = 0.08 / abs(p.y + sin((bx + time) * xScale) * yScale);
+      float lineGold   = 0.08 / abs(p.y + sin((goldX + time) * xScale) * yScale);
+      float lineMid    = 0.08 / abs(p.y + sin((midX  + time) * xScale) * yScale);
+      float lineTeal   = 0.08 / abs(p.y + sin((tealX + time) * xScale) * yScale);
 
-      gl_FragColor = vec4(r, g, b, 1.0);
+      // #E0B06A = gold,  #4BACBA = teal,  white centre blend
+      vec3 gold = vec3(0.878, 0.690, 0.416);
+      vec3 teal = vec3(0.294, 0.675, 0.729);
+      vec3 white = vec3(1.0, 1.0, 1.0);
+
+      vec3 col = gold * lineGold + white * lineMid * 0.4 + teal * lineTeal;
+
+      gl_FragColor = vec4(col, 1.0);
     }
   `;
 
