@@ -1,18 +1,73 @@
 import { animate, inView } from 'https://cdn.jsdelivr.net/npm/motion@11/+esm';
-import { LiquidMetal, liquidMetalPresets } from 'https://cdn.jsdelivr.net/npm/@paper-design/shaders/+esm';
 
 // ══════════════════════════════════════════════
-//  LIQUID METAL BACKGROUND
+//  WEBGL SHADER BACKGROUND
 // ══════════════════════════════════════════════
-(function initLiquidMetal() {
+(function initShader() {
   const canvas = document.getElementById('shader-canvas');
-  if (!canvas) return;
-  try {
-    const sketch = new LiquidMetal({ canvas, ...liquidMetalPresets[2] });
-    sketch.play();
-  } catch(e) {
-    console.warn('LiquidMetal init failed:', e);
+  if (!canvas || typeof THREE === 'undefined') return;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(new THREE.Color(0x000000));
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, -1);
+
+  const vertexShader = `
+    attribute vec3 position;
+    void main() { gl_Position = vec4(position, 1.0); }
+  `;
+  const fragmentShader = `
+    precision highp float;
+    uniform vec2  resolution;
+    uniform float time;
+    uniform float xScale;
+    uniform float yScale;
+    uniform float distortion;
+    void main() {
+      vec2 p = (gl_FragCoord.xy * 2.0 - resolution) / min(resolution.x, resolution.y);
+      float d = length(p) * distortion;
+      float rx = p.x * (1.0 + d);
+      float gx = p.x;
+      float bx = p.x * (1.0 - d);
+      float r = 0.08 / abs(p.y + sin((rx + time) * xScale) * yScale);
+      float g = 0.08 / abs(p.y + sin((gx + time) * xScale) * yScale);
+      float b = 0.08 / abs(p.y + sin((bx + time) * xScale) * yScale);
+      gl_FragColor = vec4(r, g, b, 1.0);
+    }
+  `;
+
+  const uniforms = {
+    resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+    time:       { value: 0.0 },
+    xScale:     { value: 1.0 },
+    yScale:     { value: 0.6 },
+    distortion: { value: 0.08 },
+  };
+
+  const positions = new Float32Array([
+    -1,-1,0, 1,-1,0, -1,1,0, 1,-1,0, -1,1,0, 1,1,0,
+  ]);
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  const material = new THREE.RawShaderMaterial({ vertexShader, fragmentShader, uniforms, side: THREE.DoubleSide });
+  scene.add(new THREE.Mesh(geometry, material));
+
+  function resize() {
+    const w = window.innerWidth, h = window.innerHeight;
+    renderer.setSize(w, h, false);
+    uniforms.resolution.value.set(w, h);
   }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function loop() {
+    uniforms.time.value += 0.01;
+    renderer.render(scene, camera);
+    requestAnimationFrame(loop);
+  }
+  loop();
 })();
 
 // ══════════════════════════════════════════════
