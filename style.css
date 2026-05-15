@@ -1149,6 +1149,17 @@ footer {
   font-size: 14px;
   margin-top: 16px;
 }
+#prompt-reply {
+  display: none;
+  margin-top: 16px;
+  padding: 16px 20px;
+  background: rgba(167, 139, 250, 0.08);
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  border-radius: 16px;
+  color: rgba(255,255,255,0.85);
+  font-size: 14px;
+  line-height: 1.65;
+}
 
 /* =============================================
    RESPONSIVE

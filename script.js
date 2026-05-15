@@ -355,12 +355,52 @@ document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(
     toolsLabel.style.display = 'inline';
   });
 
-  // Submit
-  form.addEventListener('submit', e => {
+  // AI chat reply area
+  let replyBox = document.getElementById('prompt-reply');
+  if (!replyBox) {
+    replyBox = document.createElement('div');
+    replyBox.id = 'prompt-reply';
+    form.parentElement.insertBefore(replyBox, form.nextSibling);
+  }
+
+  // Submit → stuur naar /api/chat
+  form.addEventListener('submit', async e => {
     e.preventDefault();
     if (sendBtn.disabled) return;
-    form.style.display = 'none';
-    success.style.display = 'block';
+
+    const message = textarea.value.trim();
+    if (!message) return;
+
+    // Toon loading staat
+    sendBtn.disabled = true;
+    sendBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>';
+    replyBox.style.display = 'none';
+
+    try {
+      const res  = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
+      });
+      const data = await res.json();
+
+      if (data.reply) {
+        replyBox.textContent = data.reply;
+        replyBox.style.display = 'block';
+        textarea.value = '';
+        textarea.style.height = 'auto';
+      } else {
+        replyBox.textContent = 'Er liep iets mis, probeer opnieuw.';
+        replyBox.style.display = 'block';
+      }
+    } catch {
+      replyBox.textContent = 'Verbindingsfout, probeer opnieuw.';
+      replyBox.style.display = 'block';
+    }
+
+    // Reset knop
+    sendBtn.disabled = false;
+    sendBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
   });
 })();
 
