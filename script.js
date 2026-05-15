@@ -1,56 +1,72 @@
 // ══════════════════════════════════════════════
-//  WEBGL SHADER BACKGROUND
+//  MESH GRADIENT BACKGROUND
 // ══════════════════════════════════════════════
 (function initShader() {
   const canvas = document.getElementById('shader-canvas');
   if (!canvas || typeof THREE === 'undefined') return;
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setClearColor(new THREE.Color(0x000000));
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
   const scene  = new THREE.Scene();
-  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, -1);
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
   const vertexShader = `
     attribute vec3 position;
     void main() { gl_Position = vec4(position, 1.0); }
   `;
+
   const fragmentShader = `
-    precision highp float;
+    precision mediump float;
     uniform vec2  resolution;
     uniform float time;
-    uniform float xScale;
-    uniform float yScale;
-    uniform float distortion;
+
+    float blob(vec2 uv, vec2 center, float radius) {
+      return exp(-distance(uv, center) / radius);
+    }
+
     void main() {
-      vec2 p = (gl_FragCoord.xy * 2.0 - resolution) / min(resolution.x, resolution.y);
-      float d = length(p) * distortion;
-      float rx = p.x * (1.0 + d);
-      float gx = p.x;
-      float bx = p.x * (1.0 - d);
-      float r = 0.08 / abs(p.y + sin((rx + time) * xScale) * yScale);
-      float g = 0.08 / abs(p.y + sin((gx + time) * xScale) * yScale);
-      float b = 0.08 / abs(p.y + sin((bx + time) * xScale) * yScale);
-      gl_FragColor = vec4(r, g, b, 1.0);
+      vec2 uv = gl_FragCoord.xy / resolution.xy;
+      float t = time * 0.12;
+
+      // 5 slowly drifting colour points
+      vec2 p1 = vec2(0.20 + 0.18 * sin(t * 0.60), 0.55 + 0.20 * cos(t * 0.45));
+      vec2 p2 = vec2(0.75 + 0.15 * cos(t * 0.50), 0.25 + 0.18 * sin(t * 0.55));
+      vec2 p3 = vec2(0.50 + 0.22 * sin(t * 0.70 + 1.0), 0.80 + 0.12 * cos(t * 0.65));
+      vec2 p4 = vec2(0.85 + 0.10 * cos(t * 0.80), 0.70 + 0.18 * sin(t * 0.40));
+      vec2 p5 = vec2(0.35 + 0.20 * sin(t * 0.55 + 2.0), 0.20 + 0.15 * cos(t * 0.75));
+
+      float b1 = blob(uv, p1, 0.28);
+      float b2 = blob(uv, p2, 0.24);
+      float b3 = blob(uv, p3, 0.22);
+      float b4 = blob(uv, p4, 0.20);
+      float b5 = blob(uv, p5, 0.26);
+
+      // White/silver colour per blob — matches black/white site
+      vec3 c1 = vec3(0.95, 0.95, 1.00) * b1;
+      vec3 c2 = vec3(0.80, 0.88, 1.00) * b2;
+      vec3 c3 = vec3(0.90, 0.90, 0.95) * b3;
+      vec3 c4 = vec3(0.75, 0.85, 1.00) * b4;
+      vec3 c5 = vec3(0.92, 0.92, 0.98) * b5;
+
+      vec3 col = (c1 + c2 + c3 + c4 + c5) * 0.22;
+      col = clamp(col, 0.0, 1.0);
+
+      gl_FragColor = vec4(col, 1.0);
     }
   `;
 
   const uniforms = {
     resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
     time:       { value: 0.0 },
-    xScale:     { value: 1.0 },
-    yScale:     { value: 0.6 },
-    distortion: { value: 0.08 },
   };
 
-  const positions = new Float32Array([
-    -1,-1,0, 1,-1,0, -1,1,0, 1,-1,0, -1,1,0, 1,1,0,
-  ]);
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  const material = new THREE.RawShaderMaterial({ vertexShader, fragmentShader, uniforms, side: THREE.DoubleSide });
-  scene.add(new THREE.Mesh(geometry, material));
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(
+    new Float32Array([-1,-1,0, 1,-1,0, -1,1,0, 1,-1,0, -1,1,0, 1,1,0]), 3
+  ));
+  const mat = new THREE.RawShaderMaterial({ vertexShader, fragmentShader, uniforms });
+  scene.add(new THREE.Mesh(geo, mat));
 
   function resize() {
     const w = window.innerWidth, h = window.innerHeight;
@@ -61,7 +77,7 @@
   window.addEventListener('resize', resize);
 
   function loop() {
-    uniforms.time.value += 0.01;
+    uniforms.time.value += 0.016;
     renderer.render(scene, camera);
     requestAnimationFrame(loop);
   }
