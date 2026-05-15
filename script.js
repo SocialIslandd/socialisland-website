@@ -1,5 +1,3 @@
-import { animate, inView } from 'https://cdn.jsdelivr.net/npm/motion@11/+esm';
-
 // ══════════════════════════════════════════════
 //  WEBGL SHADER BACKGROUND
 // ══════════════════════════════════════════════
@@ -100,18 +98,19 @@ document.querySelectorAll('.nav-mobile a').forEach(l =>
 );
 
 // ══════════════════════════════════════════════
-//  REVEAL ANIMATIONS
+//  REVEAL ANIMATIONS (native IntersectionObserver)
 // ══════════════════════════════════════════════
-document.querySelectorAll('.reveal').forEach((el, i) => {
-  el.style.opacity   = '0';
-  el.style.transform = 'translateY(24px)';
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('revealed');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { rootMargin: '0px 0px -40px 0px' });
 
-  inView(el, () => {
-    animate(el,
-      { opacity: [0, 1], y: [24, 0] },
-      { duration: 0.65, delay: (i % 4) * 0.06, easing: [0.25, 0.1, 0.25, 1] }
-    );
-  }, { margin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => {
+  revealObserver.observe(el);
 });
 
 // ══════════════════════════════════════════════
@@ -121,7 +120,6 @@ function animateCounter(el) {
   const target    = parseInt(el.dataset.count, 10);
   const duration  = 1800;
   const startTime = performance.now();
-
   function update(now) {
     const progress = Math.min((now - startTime) / duration, 1);
     const eased    = 1 - Math.pow(1 - progress, 3);
@@ -132,10 +130,15 @@ function animateCounter(el) {
   requestAnimationFrame(update);
 }
 
-document.querySelectorAll('[data-count]').forEach(el => {
-  let done = false;
-  inView(el, () => { if (!done) { done = true; animateCounter(el); } });
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      counterObserver.unobserve(entry.target);
+    }
+  });
 });
+document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
 
 // ══════════════════════════════════════════════
 //  ORBITAL TIMELINE
