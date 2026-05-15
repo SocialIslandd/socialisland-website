@@ -38,9 +38,9 @@ import { animate, inView } from 'https://cdn.jsdelivr.net/npm/motion@11/+esm';
       float gx = p.x;
       float bx = p.x * (1.0 - d);
 
-      float r = 0.05 / abs(p.y + sin((rx + time) * xScale) * yScale);
-      float g = 0.05 / abs(p.y + sin((gx + time) * xScale) * yScale);
-      float b = 0.05 / abs(p.y + sin((bx + time) * xScale) * yScale);
+      float r = 0.08 / abs(p.y + sin((rx + time) * xScale) * yScale);
+      float g = 0.08 / abs(p.y + sin((gx + time) * xScale) * yScale);
+      float b = 0.08 / abs(p.y + sin((bx + time) * xScale) * yScale);
 
       gl_FragColor = vec4(r, g, b, 1.0);
     }
@@ -50,8 +50,8 @@ import { animate, inView } from 'https://cdn.jsdelivr.net/npm/motion@11/+esm';
     resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
     time:       { value: 0.0 },
     xScale:     { value: 1.0 },
-    yScale:     { value: 0.5 },
-    distortion: { value: 0.05 },
+    yScale:     { value: 0.6 },
+    distortion: { value: 0.08 },
   };
 
   const positions = new Float32Array([
