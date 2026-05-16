@@ -1290,16 +1290,18 @@ footer {
   .hide-sm { display: none; }
 
   .hero-title { letter-spacing: -1.5px; }
-  .hero-ctas { flex-direction: column; align-items: flex-start; }
+  .section-header h2 { font-size: 17px; letter-spacing: -0.5px; }
+  .hero-ctas { flex-direction: column; align-items: center; }
   .btn-glass { width: 100%; max-width: 320px; }
   .hero-wrap { left: 24px; bottom: 40px; right: 24px; max-width: 100%; }
   .hero-orb { bottom: 24px; right: 24px; width: 90px; height: 90px; }
   .hero-orb-core { width: 26px; height: 26px; }
 
-  .hero-stats { gap: 16px; }
+  .hero-stats { gap: 16px; justify-content: center; }
   .stat-num { font-size: 20px; }
 
-  .metrics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .metrics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; justify-items: center; }
+  .metrics-grid .metric:last-child { grid-column: 1 / -1; }
   .metric-line { display: none; }
   .metric-num { font-size: 36px; }
 
